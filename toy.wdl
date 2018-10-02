@@ -32,8 +32,8 @@ task trim {
     String sliding_window
     
     command {
-        python3 $(which trim.py) \
-            --fastqs ${fastqs}
+        java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar SE -phred33 ${fastq_file} \
+        trimmed${fastq_file} LEADING:${leading} TRAILING:${trailing} SLIDINGWINDOW:${sliding_window} MINLEN:${min_length}
     }
 
     output{
