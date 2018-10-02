@@ -1,0 +1,7 @@
+{
+    "toy.fastqs": [
+        [ "test/test_input/read1.fastq.gz",
+          "test/test_input/read2.fastq.gz"]
+        ],
+    "toy.min_length": 50
+}

@@ -1,0 +1,7 @@
+{
+    "toy.fastqs": [
+        "gs://idan-toy-bucket/input/read1.fastq.gz",
+        "gs://idan-toy-bucket/input/read2.fastq.gz"
+    ],
+    "toy.min_length": 50
+}
