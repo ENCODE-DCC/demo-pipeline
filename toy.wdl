@@ -1,15 +1,21 @@
 workflow toy {
     # inputs
-    Array[Array[File]] fastqs
-    Int min_length
+    Array[File] fastqs
+    Int MINLEN
+    Int LEADING
+    Int TRAILING
+    String SLIDINGWINDOW
 
     #determine range of scatter
     Int sequencing_runs_length = length(fastqs)
     
     scatter (i in range(sequencing_runs_length)){
         call trim { input:
-            fastqs = fastqs[i],
-            min_length = min_length
+            fastq_file = fastqs[i]
+            min_length = MINLEN
+            leading = LEADING
+            trailing = TRAILING
+            sliding_window = SLIDINGWINDOW
         }      
     }
 
@@ -19,8 +25,11 @@ workflow toy {
 }
 
 task trim {
-    Array[File] fastqs
+    File fastq_file
     Int min_length
+    Int leading
+    Int trailing
+    String sliding_window
     
     command {
         python3 $(which trim.py) \
@@ -32,6 +41,6 @@ task trim {
     }
 
     runtime {
-        docker: "quay.io/gabdank/toy:v3"
+        docker: "quay.io/encode-dcc/demo-pipeline:v1"
     }
 }

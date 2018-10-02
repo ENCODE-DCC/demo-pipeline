@@ -33,8 +33,8 @@ ENV PATH="/software:${PATH}"
 RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.38.zip
 RUN unzip Trimmomatic-0.38.zip && rm Trimmomatic-0.38.zip
 
-RUN mkdir -p demo-ppipeline/src
-COPY /src demo-ppipeline/src
-ENV PATH="/software/demo-ppipeline:/software/demo-ppipeline/src:${PATH}"
+RUN mkdir -p demo-pipeline/src
+COPY /src demo-pipeline/src
+ENV PATH="/software/demo-pipeline:/software/demo-pipeline/src:${PATH}"
 
 ENTRYPOINT ["/bin/bash", "-c"]

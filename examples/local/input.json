@@ -1,7 +1,10 @@
 {
     "toy.fastqs": [
-        [ "test/test_input/read1.fastq.gz",
-          "test/test_input/read2.fastq.gz"]
-        ],
-    "toy.min_length": 50
+        "test/test_input/read1.fastq.gz",
+        "test/test_input/read2.fastq.gz"
+    ],
+    "toy.LEADING": 3,
+    "toy.TRAILING": 3,
+    "toy.MINLEN": 50,
+    "toy.SLIDINGWINDOW": "3:5"
 }
