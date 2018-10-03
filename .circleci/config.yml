@@ -1,0 +1,42 @@
+# Define action tags here
+machine_defaults: &machine_defaults
+  machine: 
+    image: circleci/classic:latest
+  working_directory: ~/toy_pipe
+
+get_cromwell: &get_cromwell
+  name: get the cromwell 35
+  command: |
+    wget -N -c https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar
+# Define jobs here
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+    steps:
+      - checkout
+      - run:
+          name: Greeting
+          command: echo Hello, world.
+
+  test_pair_trimming:
+    <<: *machine_defaults
+    steps:
+      - checkout
+      - run: *get_cromwell
+      - run:
+          command: |
+            pyenv global 3.5.2
+            java -jar cromwell-35.jar run toy.wdl -i examples/local/input.json -m metadata.json
+            python3 src/compare_md5.py --keys_to_inspect toy.output  --metadata_json metadata.json --reference_json test/test_output/md5.json --outfile result.json
+            cat result.json
+            python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
+# Define workflow here
+
+workflows:
+  version: 2
+  example_testing_workflow:
+    jobs:
+      - build
+      - test_pair_trimming
