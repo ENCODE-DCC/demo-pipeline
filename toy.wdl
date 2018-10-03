@@ -11,10 +11,10 @@ workflow toy {
     
     scatter (i in range(sequencing_runs_length)){
         call trim { input:
-            fastq_file = fastqs[i]
-            min_length = MINLEN
-            leading = LEADING
-            trailing = TRAILING
+            fastq_file = fastqs[i],
+            min_length = MINLEN,
+            leading = LEADING,
+            trailing = TRAILING,
             sliding_window = SLIDINGWINDOW
         }      
     }
@@ -32,8 +32,8 @@ task trim {
     String sliding_window
     
     command {
-        java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar SE -phred33 ${fastq_file} \
-        trimmed${fastq_file} LEADING:${leading} TRAILING:${trailing} SLIDINGWINDOW:${sliding_window} MINLEN:${min_length}
+        input_file=$(echo ${fastq_file} | sed 's/.*\///')
+        java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar SE -phred33 ${fastq_file} trimmed.$input_file LEADING:${leading} TRAILING:${trailing} SLIDINGWINDOW:${sliding_window} MINLEN:${min_length}
     }
 
     output{
