@@ -59,6 +59,28 @@ jobs:
             docker push quay.io/encode-dcc/demo-pipeline:template
             docker logout
 
+  test_trimming_task:
+    <<: *machine_defaults
+    steps:
+      - checkout
+      - run: *get_cromwell
+      - run:
+          command: |
+            pyenv global 3.5.2
+            java -jar cromwell-35.jar run per_task_wdl/trim.wdl -i examples/local/trim_task.json -m metadata.json
+            python3 src/compare_md5.py --keys_to_inspect trim.output --metadata_json metadata.json --reference_json test/test_output/trim_task_md5.json --outfile result.json
+            cat result.json
+            python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
+
+  test_plotting_task:
+    <<: *machine_defaults
+    steps:
+      - checkout
+      - run: *get_cromwell
+      - run:
+          command: |
+            pyenv global 3.5.2
+            echo 'testing plots'
 
   test_workflow:
     <<: *machine_defaults
@@ -73,21 +95,8 @@ jobs:
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
 
-  test_trimming_task:
-    <<: *machine_defaults
-    steps:
-      - checkout
-      - run: *get_cromwell
-      - run:
-          command: |
-            pyenv global 3.5.2
-            java -jar cromwell-35.jar run per_task_wdl/trim.wdl -i examples/local/trim_task.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect trim.output --metadata_json metadata.json --reference_json test/test_output/trim_task_md5.json --outfile result.json
-            cat result.json
-            python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
 
-            # Define workflow here
-
+# Define workflow here
 workflows:
   version: 2
   build_workflow:
