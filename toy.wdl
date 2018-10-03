@@ -37,7 +37,7 @@ task trim {
     }
 
     output{
-        Array[File] files = glob('*.fastq.gz')
+        Array[File] files = glob('trimmed.*.fastq.gz')
     }
 
     runtime {

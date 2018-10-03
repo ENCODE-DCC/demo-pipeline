@@ -1,7 +1,7 @@
 {
     "toy.fastqs": [
-        "test/test_input/read1.fastq.gz",
-        "test/test_input/read2.fastq.gz"
+        "test/test_input/file1.fastq.gz",
+        "test/test_input/file2.fastq.gz"
     ],
     "toy.LEADING": 3,
     "toy.TRAILING": 3,
