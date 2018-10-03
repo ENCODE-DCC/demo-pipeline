@@ -69,10 +69,24 @@ jobs:
           command: |
             pyenv global 3.5.2
             java -jar cromwell-35.jar run toy.wdl -i examples/local/input.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect toy.output  --metadata_json metadata.json --reference_json test/test_output/md5.json --outfile result.json
+            python3 src/compare_md5.py --keys_to_inspect toy.output --metadata_json metadata.json --reference_json test/test_output/md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
-# Define workflow here
+
+  test_trimming_task:
+    <<: *machine_defaults
+    steps:
+      - checkout
+      - run: *get_cromwell
+      - run:
+          command: |
+            pyenv global 3.5.2
+            java -jar cromwell-35.jar run per_task_wdl/trim.wdl -i examples/local/trim_task.json -m metadata.json
+            python3 src/compare_md5.py --keys_to_inspect toy.output --metadata_json metadata.json --reference_json test/test_output/trim_task_md5.json --outfile result.json
+            cat result.json
+            python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
+
+            # Define workflow here
 
 workflows:
   version: 2
@@ -80,3 +94,4 @@ workflows:
     jobs:
       - build
       - test_pair_trimming
+      - test_trimming_task
