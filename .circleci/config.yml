@@ -60,7 +60,7 @@ jobs:
             docker logout
 
 
-  test_pair_trimming:
+  test_workflow:
     <<: *machine_defaults
     steps:
       - checkout
@@ -90,8 +90,15 @@ jobs:
 
 workflows:
   version: 2
-  example_testing_workflow:
+  build_workflow:
     jobs:
-      - build
-      - test_pair_trimming
+      - test_workflow
       - test_trimming_task
+      - build:
+          requires:
+            - test_workflow
+            - test_trimming_task
+          filters:
+            branches:
+              only:
+                - master
