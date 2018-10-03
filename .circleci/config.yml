@@ -59,6 +59,7 @@ jobs:
             docker push quay.io/encode-dcc/demo-pipeline:template
             docker logout
 
+
   test_pair_trimming:
     <<: *machine_defaults
     steps:
