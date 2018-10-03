@@ -1,4 +1,10 @@
 # Define action tags here
+
+defaults: &defaults
+  docker:
+    - image: circleci/buildpack-deps:xenial-scm
+  working_directory: ~/demo-pipeline
+
 machine_defaults: &machine_defaults
   machine: 
     image: circleci/classic:latest
@@ -36,10 +42,11 @@ install_singularity: &install_singularity
 version: 2
 jobs:
   build:
-    docker:
-      - image: debian:stretch
+    <<: *defaults
     steps:
       - checkout
+      - setup_remote_docker
+      - run: *make_tag
       - run:
           name: build image
           command: |
