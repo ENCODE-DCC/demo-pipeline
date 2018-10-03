@@ -14,4 +14,8 @@ workflow trim {
         trailing = TRAILING,
         sliding_window = SLIDINGWINDOW
     }
+
+    output {
+        File output = trim.file
+    }
 }

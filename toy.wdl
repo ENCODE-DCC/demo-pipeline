@@ -20,7 +20,7 @@ workflow toy {
     }
 
     output {
-        Array[Array[File]] output = trim.files
+        Array[File] output = trim.file
     }
 }
 
@@ -37,7 +37,7 @@ task trim {
     }
 
     output{
-        Array[File] files = glob('trimmed.*.fastq.gz')
+        File file = glob('trimmed.*.fastq.gz')[0]
     }
 
     runtime {
