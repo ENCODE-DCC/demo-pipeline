@@ -8,7 +8,7 @@ defaults: &defaults
 machine_defaults: &machine_defaults
   machine: 
     image: circleci/classic:latest
-  working_directory: ~/toy_pipe
+  working_directory: ~/demo-pipeline
 
 make_tag: &make_tag
   name: make docker image tag
