@@ -107,7 +107,3 @@ workflows:
           requires:
             - test_workflow
             - test_trimming_task
-          filters:
-            branches:
-              only:
-                - master
