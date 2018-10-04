@@ -59,8 +59,12 @@ def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data):
     return fig
 
 
-def save_plot(fig, trimmed_name, untrimmed_name):
-    fig.savefig(
+def parse_file_name(filepath):
+    return filepath.split('.')[0]
+
+
+def save_plot(figure, untrimmed_name, trimmed_name):
+    figure.savefig(
         'untrimmed_trimmed_quality_scores_{}_{}.pdf'.format(
             untrimmed_name,
             trimmed_name,
@@ -95,6 +99,10 @@ def get_args():
 def main():
     args = get_args()
     logging.basicConfig(level=args.log_level)
+    untrimmed_bin_data = gather_scores_for_fastq(args.untrimmed)
+    trimmed_bin_data = gather_scores_for_fastq(args.trimmed)
+    figure = plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data)
+    save_plot(figure, parse_file_name(args.untrimmed), parse_file_name(args.trimmed))
 
 
 if __name__ == '__main__':
