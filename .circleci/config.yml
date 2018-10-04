@@ -82,6 +82,7 @@ jobs:
             pyenv global 3.5.2
             echo 'testing plots'
 
+
   test_workflow:
     <<: *machine_defaults
     steps:
