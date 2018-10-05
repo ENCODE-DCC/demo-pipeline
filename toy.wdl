@@ -1,14 +1,14 @@
 workflow toy {
     # inputs
     Array[File] fastqs
-    Array[File] _trimmed_fastqs = []
+    Array[File] trimmed_fastqs = []
     Int MINLEN
     Int LEADING
     Int TRAILING
     String SLIDINGWINDOW
 
     Int number_of_fastqs = length(fastqs)
-    Int number_of_trimmed_fastqs = length(_trimmed_fastqs)
+    Int number_of_trimmed_fastqs = length(trimmed_fastqs)
 
     scatter (i in range(number_of_fastqs - number_of_trimmed_fastqs)){
         call trim { input:
