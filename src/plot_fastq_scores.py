@@ -16,6 +16,7 @@ ReadBase = namedtuple('ReadBase', ['position', 'quality_score'])
 
 
 def read_fastq_scores(filepath):
+    logging.debug('Opening FASTQ {}'.format(filepath))
     with gzip.open(filepath, 'rt') as f:
         for i, rec in enumerate(SeqIO.parse(f, 'fastq')):
             yield rec.letter_annotations['phred_quality']
@@ -28,6 +29,7 @@ def bin_quality_scores(bin_data, vals):
 
 
 def gather_scores_for_fastq(filepath):
+    logging.debug('Gathering scores for {}'.format(filepath))
     bin_data = []
     for vals in read_fastq_scores(filepath):
         bin_data = bin_quality_scores(bin_data, vals)
@@ -50,22 +52,33 @@ def plot_boxplot(bin_data, ax):
 
 
 def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data):
+    logging.debug('Creating plot')
     sns.set_style('darkgrid')
     fig, axes = plt.subplots(2, 1, sharey=True, sharex=True, figsize=[18, 10])
     plot_boxplot(untrimmed_bin_data, axes[0])
     plot_boxplot(trimmed_bin_data, axes[1])
     axes[0].set_title('Quality score by base position before trimming')
     axes[1].set_title('Quality score by base position after trimming')
+    for i, label in enumerate(axes[1].get_xticklabels()):
+        if i % 5 != 0:
+            label.set_visible(False)
     return fig
 
 
 def parse_file_name(filepath):
-    return filepath.split('.')[0]
+    return '_'.join(
+        [
+            f.split('.')[0]
+            for f in filepath.split('/')
+            if 'fastq' in f
+        ]
+    )
 
 
 def save_plot(figure, untrimmed_name, trimmed_name):
+    logging.debug('Saving plot')
     figure.savefig(
-        'untrimmed_trimmed_quality_scores_{}_{}.pdf'.format(
+        '{}_untrimmed_{}_trimmed_quality_scores.pdf'.format(
             untrimmed_name,
             trimmed_name,
         ),
@@ -88,10 +101,12 @@ def get_args():
     parser.add_argument(
         '-u', '--untrimmed',
         help='Path to untrimmed FASTQ.',
+        required=True,
     )
     parser.add_argument(
         '-t', '--trimmed',
         help='Path to trimmed FASTQ.',
+        required=True,
     )
     return parser.parse_args()
 
