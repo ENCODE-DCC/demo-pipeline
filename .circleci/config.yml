@@ -80,6 +80,7 @@ jobs:
       - run:
           command: |
             pyenv global 3.5.2
+            pip3 install pytest==3.5.0
             echo 'testing plots'
             python3 -m pytest src/test
 
