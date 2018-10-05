@@ -16,6 +16,6 @@ workflow trim {
     }
 
     output {
-        File output = trim.file
+        File trimmed_fastq = trim.file
     }
 }
