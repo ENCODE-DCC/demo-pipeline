@@ -19,6 +19,7 @@ def read_fastq_scores(filepath):
     logging.debug('Opening FASTQ {}'.format(filepath))
     with gzip.open(filepath, 'rt') as f:
         for i, rec in enumerate(SeqIO.parse(f, 'fastq')):
+            # Only sample first 10,000.
             if i == 10000:
                 break
             yield rec.letter_annotations['phred_quality']
