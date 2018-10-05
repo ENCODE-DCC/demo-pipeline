@@ -7,16 +7,25 @@ workflow toy {
     Int TRAILING
     String SLIDINGWINDOW
 
-    #determine range of scatter
-    Int sequencing_runs_length = length(fastqs)
-    
-    scatter (i in range(sequencing_runs_length)){
+    Int number_of_fastqs = length(fastqs)
+    Int number_of_trimmed_fastqs = length(trimmed_fastqs)
+
+    scatter (i in range(number_of_fastqs-number_of_trimmed_fastqs)){
         call trim { input:
             fastq_file = fastqs[i],
             min_length = MINLEN,
             leading = LEADING,
             trailing = TRAILING,
             sliding_window = SLIDINGWINDOW
+        }      
+    }
+
+    Array[File] trimmed_fastqs_ = flatten([trim.file, trimmed_fastqs])
+
+    scatter (i in range(number_of_fastqs)){
+        call plot { input:
+            before_trimming = fastqs[i],
+            after_trimming = trimmed_fastqs_[i]
         }      
     }
 
