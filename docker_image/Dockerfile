@@ -33,6 +33,12 @@ ENV PATH="/software:${PATH}"
 RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.38.zip
 RUN unzip Trimmomatic-0.38.zip && rm Trimmomatic-0.38.zip
 
+RUN pip3 install --no-cache-dir --no-dependencies numpy==1.14.2
+RUN pip3 install --no-cache-dir --no-dependencies scipy==1.0.1
+RUN pip3 install --no-cache-dir --no-dependencies pandas==0.22.0
+RUN pip3 install --no-cache-dir --no-dependencies biopython==1.68
+RUN pip3 install --no-cache-dir --no-dependencies seaborn==0.8.1
+
 RUN mkdir -p demo-pipeline/src
 COPY /src demo-pipeline/src
 ENV PATH="/software/demo-pipeline:/software/demo-pipeline/src:${PATH}"
