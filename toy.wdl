@@ -31,7 +31,7 @@ workflow toy {
 
     output {
         Array[File] trimmed_output = trim.file
-        Array[File] plots = plot.file
+        Array[File] plots = plot.plot_output
     }
 }
 
@@ -65,7 +65,7 @@ task plot {
     }
 
     output {
-        File plot = glob('plot.png')[0]
+        File plot_output = glob('plot.png')[0]
     }
     
     runtime {
