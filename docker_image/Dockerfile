@@ -33,6 +33,7 @@ ENV PATH="/software:${PATH}"
 RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.38.zip
 RUN unzip Trimmomatic-0.38.zip && rm Trimmomatic-0.38.zip
 
+RUN pip3 install --no-cache-dir --no-dependencies pytest==3.5.0
 RUN pip3 install --no-cache-dir --no-dependencies numpy==1.14.2
 RUN pip3 install --no-cache-dir --no-dependencies scipy==1.0.1
 RUN pip3 install --no-cache-dir --no-dependencies pandas==0.22.0
