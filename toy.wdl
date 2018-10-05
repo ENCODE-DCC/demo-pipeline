@@ -61,7 +61,7 @@ task plot {
     File after_trimming
 
     command {
-        touch plot.png
+        touch plot.pdf
     }
 
     output {
