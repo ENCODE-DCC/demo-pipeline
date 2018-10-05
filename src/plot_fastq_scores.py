@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Plots quality score boxplot by base position for FASTQ before and after trimming.
 
