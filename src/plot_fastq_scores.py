@@ -8,8 +8,12 @@ import logging
 
 from Bio import SeqIO
 from collections import namedtuple
+import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+
+matplotlib.matplotlib.use('Agg')
 
 
 ReadBase = namedtuple('ReadBase', ['position', 'quality_score'])
