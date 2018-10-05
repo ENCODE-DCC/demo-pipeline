@@ -96,7 +96,7 @@ jobs:
           command: |
             pyenv global 3.5.2
             java -jar cromwell-35.jar run toy.wdl -i examples/local/input.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_fastqs --metadata_json metadata.json --reference_json test/test_output/md5.json --outfile result.json
+            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output --metadata_json metadata.json --reference_json test/test_output/md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
 
