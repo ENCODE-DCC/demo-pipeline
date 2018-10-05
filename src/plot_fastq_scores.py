@@ -39,7 +39,7 @@ def gather_scores_for_fastq(filepath):
     return i, bin_data
 
 
-def plot_boxplot(bin_data, ax, bar_color):
+def plot_boxplot(bin_data, ax, bar_color, flier_color):
     sns.boxplot(
         x=[
             r.position
@@ -50,6 +50,13 @@ def plot_boxplot(bin_data, ax, bar_color):
             for r in bin_data
         ],
         color=bar_color,
+        fliersize=3,
+        flierprops={
+            'markerfacecolor': 'None',
+            'markeredgecolor': flier_color,
+            'markeredgewidth': 0.6,
+            'marker': 'o',
+        },
         ax=ax
     )
 
@@ -73,12 +80,13 @@ def set_x_axis(ax0, ax1):
         ax0.set_xticklabels(ax1_ticklabels)
 
 
-def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data, bar_color):
+def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data,
+                                   bar_color, flier_color, plot_color):
     logging.debug('Creating plot')
-    sns.set_style('darkgrid')
+    sns.set_style(plot_color)
     fig, axes = plt.subplots(2, 1, sharey=True, figsize=[18, 10])
-    plot_boxplot(untrimmed_bin_data, axes[0], bar_color)
-    plot_boxplot(trimmed_bin_data, axes[1], bar_color)
+    plot_boxplot(untrimmed_bin_data, axes[0], bar_color, flier_color)
+    plot_boxplot(trimmed_bin_data, axes[1], bar_color, flier_color)
     axes[0].set_title('Quality score by base position before trimming')
     axes[1].set_title('Quality score by base position after trimming')
     axes[0].get_shared_x_axes().join(axes[0], axes[1])
@@ -133,9 +141,20 @@ def get_args():
         required=True,
     )
     parser.add_argument(
-        '-bc', '--bar_color',
+        '-bc', '--bar-color',
         help='Bar color for boxplot.',
         default='white'
+    )
+    parser.add_argument(
+        '-fc', '--flier-color',
+        help='Color for boxplot outliers.',
+        default='grey'
+    )
+    parser.add_argument(
+        '-pc', '--plot-color',
+        choices=['whitegrid', 'darkgrid', 'white', 'ticks'],
+        help='Color for boxplot outliers.',
+        default='darkgrid'
     )
     return parser.parse_args()
 
@@ -146,7 +165,13 @@ def main():
     untrimmed_count, untrimmed_bin_data = gather_scores_for_fastq(args.untrimmed)
     trimmed_count, trimmed_bin_data = gather_scores_for_fastq(args.trimmed)
     print('Count', untrimmed_count, trimmed_count)
-    figure = plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data, args.bar_color)
+    figure = plot_quality_score_by_position(
+        untrimmed_bin_data,
+        trimmed_bin_data,
+        args.bar_color,
+        args.flier_color,
+        args.plot_color,
+    )
     save_plot(figure, parse_file_name(args.untrimmed), parse_file_name(args.trimmed))
 
 
