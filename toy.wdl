@@ -20,7 +20,7 @@ workflow toy {
         }      
     }
 
-    Array[File] trimmed_fastqs_ = flatten([trim.file, _trimmed_fastqs])
+    Array[File] trimmed_fastqs_ = flatten([trim.file, trimmed_fastqs])
 
     scatter (i in range(number_of_fastqs)){
         call plot { input:
