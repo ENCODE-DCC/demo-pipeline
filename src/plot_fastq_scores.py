@@ -80,20 +80,46 @@ def set_x_axis(ax0, ax1):
         ax0.set_xticklabels(ax1_ticklabels)
 
 
+def plot_count(ax, count):
+    ax.text(
+        0.95,
+        0.01,
+        'Read count: {}'.format(count),
+        verticalalignment='bottom',
+        horizontalalignment='right',
+        transform=ax.transAxes,
+        size=10
+    )
+
+
 def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data,
-                                   bar_color, flier_color, plot_color):
+                                   bar_color, flier_color, plot_color,
+                                   untrimmed_count, trimmed_count):
     logging.debug('Creating plot')
     sns.set_style(plot_color)
     fig, axes = plt.subplots(2, 1, sharey=True, figsize=[18, 10])
     plot_boxplot(untrimmed_bin_data, axes[0], bar_color, flier_color)
     plot_boxplot(trimmed_bin_data, axes[1], bar_color, flier_color)
-    axes[0].set_title('Quality score by base position before trimming')
-    axes[1].set_title('Quality score by base position after trimming')
+    axes[0].set_title('Before trimming')
+    axes[1].set_title('After trimming')
+    fig.text(
+        0.105,
+        0.5,
+        'Quality score',
+        horizontalalignment='center',
+        verticalalignment='center',
+        weight='bold',
+        rotation=90,
+    )
+    axes[1].set_xlabel('Base position', weight='bold')
     axes[0].get_shared_x_axes().join(axes[0], axes[1])
     set_x_axis(axes[0], axes[1])
+    plot_count(axes[0], untrimmed_count)
+    plot_count(axes[1], trimmed_count)
     space_xticklabels(axes[0])
     space_xticklabels(axes[1])
     axes[0].xaxis.set_tick_params(which='both', labelbottom=False)
+    plt.subplots_adjust(hspace=0.1)
     return fig
 
 
@@ -164,13 +190,14 @@ def main():
     logging.basicConfig(level=args.log_level)
     untrimmed_count, untrimmed_bin_data = gather_scores_for_fastq(args.untrimmed)
     trimmed_count, trimmed_bin_data = gather_scores_for_fastq(args.trimmed)
-    print('Count', untrimmed_count, trimmed_count)
     figure = plot_quality_score_by_position(
         untrimmed_bin_data,
         trimmed_bin_data,
         args.bar_color,
         args.flier_color,
         args.plot_color,
+        untrimmed_count,
+        trimmed_count,
     )
     save_plot(figure, parse_file_name(args.untrimmed), parse_file_name(args.trimmed))
 
