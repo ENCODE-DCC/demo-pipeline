@@ -1,5 +1,8 @@
 import pytest
 
+import matplotlib
+matplotlib.use('agg')
+
 
 def test_read_fastq_scores():
     from plot_fastq_scores import read_fastq_scores
