@@ -19,6 +19,8 @@ def read_fastq_scores(filepath):
     logging.debug('Opening FASTQ {}'.format(filepath))
     with gzip.open(filepath, 'rt') as f:
         for i, rec in enumerate(SeqIO.parse(f, 'fastq')):
+            if i == 10000:
+                break
             yield rec.letter_annotations['phred_quality']
 
 
@@ -31,9 +33,9 @@ def bin_quality_scores(bin_data, vals):
 def gather_scores_for_fastq(filepath):
     logging.debug('Gathering scores for {}'.format(filepath))
     bin_data = []
-    for vals in read_fastq_scores(filepath):
+    for i, vals in enumerate(read_fastq_scores(filepath)):
         bin_data = bin_quality_scores(bin_data, vals)
-    return bin_data
+    return i, bin_data
 
 
 def plot_boxplot(bin_data, ax):
@@ -51,17 +53,38 @@ def plot_boxplot(bin_data, ax):
     )
 
 
+def space_xticklabels(ax):
+    for i, label in enumerate(ax.get_xticklabels()):
+        if i % 5 != 0:
+            label.set_visible(False)
+
+
+def set_x_axis(ax0, ax1):
+    ax0_ticks = ax0.get_xticks()
+    ax0_ticklabels = ax0.get_xticklabels()
+    ax1_ticks = ax1.get_xticks()
+    ax1_ticklabels = ax1.get_xticklabels()
+    if len(ax0_ticks) >= len(ax1_ticks):
+        ax1.set_xticks(ax0_ticks)
+        ax1.set_xticklabels(ax0_ticklabels)
+    else:
+        ax0.set_xticks(ax1_ticks)
+        ax0.set_xticklabels(ax1_ticklabels)
+
+
 def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data):
     logging.debug('Creating plot')
     sns.set_style('darkgrid')
-    fig, axes = plt.subplots(2, 1, sharey=True, sharex=True, figsize=[18, 10])
+    fig, axes = plt.subplots(2, 1, sharey=True, figsize=[18, 10])
     plot_boxplot(untrimmed_bin_data, axes[0])
     plot_boxplot(trimmed_bin_data, axes[1])
     axes[0].set_title('Quality score by base position before trimming')
     axes[1].set_title('Quality score by base position after trimming')
-    for i, label in enumerate(axes[1].get_xticklabels()):
-        if i % 5 != 0:
-            label.set_visible(False)
+    axes[0].get_shared_x_axes().join(axes[0], axes[1])
+    set_x_axis(axes[0], axes[1])
+    space_xticklabels(axes[0])
+    space_xticklabels(axes[1])
+    axes[0].xaxis.set_tick_params(which='both', labelbottom=False)
     return fig
 
 
@@ -114,8 +137,9 @@ def get_args():
 def main():
     args = get_args()
     logging.basicConfig(level=args.log_level)
-    untrimmed_bin_data = gather_scores_for_fastq(args.untrimmed)
-    trimmed_bin_data = gather_scores_for_fastq(args.trimmed)
+    untrimmed_count, untrimmed_bin_data = gather_scores_for_fastq(args.untrimmed)
+    trimmed_count, trimmed_bin_data = gather_scores_for_fastq(args.trimmed)
+    print('Count', untrimmed_count, trimmed_count)
     figure = plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data)
     save_plot(figure, parse_file_name(args.untrimmed), parse_file_name(args.trimmed))
 
