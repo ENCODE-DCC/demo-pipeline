@@ -101,13 +101,13 @@ jobs:
             apt-transport-https \
             python3-tk \
             && sudo rm -rf /var/lib/apt/lists/*
-            pip3 install pytest==3.5.0
-            pip3 install numpy==1.14.2
-            pip3 install scipy==1.0.1
-            pip3 install pandas==0.22.0
-            pip3 install matplotlib==2.1.1
-            pip3 install biopython==1.68
-            pip3 install seaborn==0.8.1
+            python3 -m pip install pytest==3.5.0
+            python3 -m pip install numpy==1.14.2
+            python3 -m pip install scipy==1.0.1
+            python3 -m pip install pandas==0.22.0
+            python3 -m pip install matplotlib==2.1.1
+            python3 -m pip install biopython==1.68
+            python3 -m pip install seaborn==0.8.1
             echo 'testing plots'
             cd src && python3 -m pytest test
 
