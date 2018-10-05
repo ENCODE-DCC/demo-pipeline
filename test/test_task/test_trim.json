@@ -1,0 +1,7 @@
+{
+    "trim.fastq": "test/test_input/file1.fastq.gz",
+    "trim.LEADING": 3,
+    "trim.TRAILING": 3,
+    "trim.MINLEN": 50,
+    "trim.SLIDINGWINDOW": "3:15"
+}
