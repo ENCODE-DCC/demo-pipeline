@@ -5,6 +5,11 @@ defaults: &defaults
     - image: circleci/buildpack-deps:xenial-scm
   working_directory: ~/demo-pipeline
 
+python_defaults: &python_defaults
+  docker:
+    - image: quay.io/encode-dcc/demo-pipeline:template
+  working_directory: ~/demo-pipeline
+ 
 machine_defaults: &machine_defaults
   machine: 
     image: circleci/classic:latest
@@ -71,7 +76,7 @@ jobs:
             python3 src/compare_md5.py --keys_to_inspect trim.output --metadata_json metadata.json --reference_json test/test_output/trim_task_md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
-
+            
   test_plotting_task:
     <<: *machine_defaults
     steps:
@@ -79,17 +84,8 @@ jobs:
       - run: *get_cromwell
       - run:
           command: |
-            pyenv global 3.5.2
-            sudo apt-get update && sudo apt-get install -y python3-tk 
-            pip3 install pytest==3.5.0
-            pip3 install numpy==1.14.2
-            pip3 install scipy==1.0.1
-            pip3 install pandas==0.22.0
-            pip3 install matplotlib==2.1.1
-            pip3 install biopython==1.68
-            pip3 install seaborn==0.8.1
-            echo 'testing plots'
-            cd src && python3 -m pytest test
+            echo 'testing plotting task'
+
 
   test_workflow:
     <<: *machine_defaults
@@ -104,6 +100,15 @@ jobs:
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
 
+  test_python_scripts:
+    <<: *python_defaults
+    steps:
+      - checkout
+      - run:
+          name: Test Python scripts
+          command: |
+            echo 'Running pytest'
+            cd src && python3 -m pytest test
 
 # Define workflow here
 workflows:
@@ -118,3 +123,4 @@ workflows:
             - test_workflow
             - test_trimming_task
             - test_plotting_task
+            - test_python_scripts
