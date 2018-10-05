@@ -179,7 +179,7 @@ def get_args():
     parser.add_argument(
         '-pc', '--plot-color',
         choices=['whitegrid', 'darkgrid', 'white', 'ticks'],
-        help='Color for boxplot outliers.',
+        help='Color for plot background.',
         default='darkgrid'
     )
     return parser.parse_args()
