@@ -109,4 +109,3 @@ workflows:
           requires:
             - test_workflow
             - test_trimming_task
-            - test_plotting_task
