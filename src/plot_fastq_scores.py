@@ -9,10 +9,10 @@ import logging
 from Bio import SeqIO
 from collections import namedtuple
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+matplotlib.use('Agg')
 
 ReadBase = namedtuple('ReadBase', ['position', 'quality_score'])
 
@@ -41,7 +41,7 @@ def gather_scores_for_fastq(filepath):
     return i, bin_data
 
 
-def plot_boxplot(bin_data, ax):
+def plot_boxplot(bin_data, ax, bar_color):
     sns.boxplot(
         x=[
             r.position
@@ -51,7 +51,7 @@ def plot_boxplot(bin_data, ax):
             r.quality_score
             for r in bin_data
         ],
-        color='white',
+        color=bar_color,
         ax=ax
     )
 
@@ -75,12 +75,12 @@ def set_x_axis(ax0, ax1):
         ax0.set_xticklabels(ax1_ticklabels)
 
 
-def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data):
+def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data, bar_color):
     logging.debug('Creating plot')
     sns.set_style('darkgrid')
     fig, axes = plt.subplots(2, 1, sharey=True, figsize=[18, 10])
-    plot_boxplot(untrimmed_bin_data, axes[0])
-    plot_boxplot(trimmed_bin_data, axes[1])
+    plot_boxplot(untrimmed_bin_data, axes[0], bar_color)
+    plot_boxplot(trimmed_bin_data, axes[1], bar_color)
     axes[0].set_title('Quality score by base position before trimming')
     axes[1].set_title('Quality score by base position after trimming')
     axes[0].get_shared_x_axes().join(axes[0], axes[1])
@@ -134,6 +134,11 @@ def get_args():
         help='Path to trimmed FASTQ.',
         required=True,
     )
+    parser.add_argument(
+        '-bc', '--bar_color',
+        help='Bar color for boxplot.',
+        default='white'
+    )
     return parser.parse_args()
 
 
@@ -143,7 +148,7 @@ def main():
     untrimmed_count, untrimmed_bin_data = gather_scores_for_fastq(args.untrimmed)
     trimmed_count, trimmed_bin_data = gather_scores_for_fastq(args.trimmed)
     print('Count', untrimmed_count, trimmed_count)
-    figure = plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data)
+    figure = plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data, args.bar_color)
     save_plot(figure, parse_file_name(args.untrimmed), parse_file_name(args.trimmed))
 
 
