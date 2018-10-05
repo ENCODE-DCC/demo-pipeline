@@ -81,6 +81,7 @@ jobs:
           command: |
             pyenv global 3.5.2
             echo 'testing plots'
+            python3 -m pytest src/test
 
   test_workflow:
     <<: *machine_defaults
@@ -103,7 +104,9 @@ workflows:
     jobs:
       - test_workflow
       - test_trimming_task
+      - test_plotting_task
       - build:
           requires:
             - test_workflow
             - test_trimming_task
+            - test_plotting_task
