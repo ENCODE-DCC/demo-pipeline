@@ -65,7 +65,7 @@ task plot {
     }
 
     output {
-        File plot_output = glob('plot.png')[0]
+        File plot_output = glob('plot.pdf')[0]
     }
     
     runtime {
