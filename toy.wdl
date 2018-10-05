@@ -30,7 +30,8 @@ workflow toy {
     }
 
     output {
-        Array[File] output = trim.file
+        Array[File] trimmed_fastqs = trim.file
+        Array[File] plots = plot.file
     }
 }
 
