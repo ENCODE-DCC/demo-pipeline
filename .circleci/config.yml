@@ -79,7 +79,6 @@ jobs:
       - run: *get_cromwell
       - run:
           command: |
-            pyenv global 3.5.2
             apt-get update && apt-get install -y \
             libncurses5-dev \
             libncursesw5-dev \
