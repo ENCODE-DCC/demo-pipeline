@@ -72,8 +72,8 @@ jobs:
       - run:
           command: |
             pyenv global 3.5.2
-            java -jar cromwell-35.jar run per_task_wdl/trim.wdl -i examples/local/test_trim_task.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect trim.trimmed_fastq --metadata_json metadata.json --reference_json test/test_output/trim_task_md5.json --outfile result.json
+            java -jar cromwell-35.jar run test/test_task/test_trim.wdl -i test/test_task/test_trim.json -m metadata.json
+            python3 src/compare_md5.py --keys_to_inspect trim.trimmed_fastq --metadata_json metadata.json --reference_json test/test_task/ref_output/test_trim_output_md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
             
@@ -86,7 +86,6 @@ jobs:
           command: |
             echo 'testing plotting task'
 
-
   test_entrypoint:
     <<: *machine_defaults
     steps:
@@ -95,21 +94,8 @@ jobs:
       - run:
           command: |
             pyenv global 3.5.2
-            java -jar cromwell-35.jar run toy.wdl -i examples/local/test_entrypoint.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output --metadata_json metadata.json --reference_json test/test_output/md5.json --outfile result.json
-            cat result.json
-            python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
-
-  test_entrypoint:
-    <<: *machine_defaults
-    steps:
-      - checkout
-      - run: *get_cromwell
-      - run:
-          command: |
-            pyenv global 3.5.2
-            java -jar cromwell-35.jar run toy.wdl -i examples/local/test_entrypoint.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output --metadata_json metadata.json --reference_json test/test_output/md5.json --outfile result.json
+            java -jar cromwell-35.jar run toy.wdl -i test/test_workflow/test_entrypoint.json -m metadata.json
+            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output --metadata_json metadata.json --reference_json test/test_workflow/ref_output/test_entrypoint_output_md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
 
@@ -121,8 +107,8 @@ jobs:
       - run:
           command: |
             pyenv global 3.5.2
-            java -jar cromwell-35.jar run toy.wdl -i examples/local/input.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output --metadata_json metadata.json --reference_json test/test_output/md5.json --outfile result.json
+            java -jar cromwell-35.jar run toy.wdl -i test/test_workflow/test_workflow.json -m metadata.json
+            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output --metadata_json metadata.json --reference_json test/test_workflow/ref_output/test_workflow_output_md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
 
