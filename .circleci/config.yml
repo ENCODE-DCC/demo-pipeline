@@ -81,8 +81,14 @@ jobs:
           command: |
             pyenv global 3.5.2
             pip3 install pytest==3.5.0
+            pip3 install numpy==1.14.2
+            pip3 install scipy==1.0.1
+            pip3 install pandas==0.22.0
+            pip3 install matplotlib==2.1.1
+            pip3 install biopython==1.68
+            pip3 install seaborn==0.8.1
             echo 'testing plots'
-            python3 -m pytest src/test
+            cd src && python3 -m pytest test
 
   test_workflow:
     <<: *machine_defaults
