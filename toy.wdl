@@ -1,6 +1,7 @@
 workflow toy {
     # inputs
     Array[File] fastqs
+    Array[File] trimmed_fastqs = []
     Int MINLEN
     Int LEADING
     Int TRAILING
@@ -40,6 +41,23 @@ task trim {
         File file = glob('trimmed.*.fastq.gz')[0]
     }
 
+    runtime {
+        docker: "quay.io/encode-dcc/demo-pipeline:v1"
+    }
+}
+
+task plot {
+    File before_trimming
+    File after_trimming
+
+    command {
+        touch plot.png
+    }
+
+    output {
+        File plot = glob('plot.png')
+    }
+    
     runtime {
         docker: "quay.io/encode-dcc/demo-pipeline:v1"
     }
