@@ -80,8 +80,7 @@ jobs:
       - run:
           command: |
             pyenv global 3.5.2
-            sudo apt-get install -y \
-            python3-tk 
+            sudo apt-get update && sudo apt-get install -y python3-tk 
             pip3 install pytest==3.5.0
             pip3 install numpy==1.14.2
             pip3 install scipy==1.0.1
