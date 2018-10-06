@@ -2,6 +2,9 @@
 
 # Plots quality score boxplot by base position for FASTQ before and after trimming.
 
+import matplotlib
+matplotlib.use('Agg')
+
 import argparse
 import gzip
 import logging
@@ -9,8 +12,6 @@ import logging
 from Bio import SeqIO
 from collections import namedtuple
 
-import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
