@@ -52,23 +52,31 @@ task trim {
     }
 
     runtime {
-        docker: "quay.io/encode-dcc/demo-pipeline:v1"
+        docker: "quay.io/encode-dcc/demo-pipeline:template"
     }
 }
 
 task plot {
     File before_trimming
     File after_trimming
+    String bar_color = 'white'
+    String flier_color = 'grey'
+    String plot_color = 'darkgrid'
 
     command {
-        touch plot.pdf
+        python3 /software/demo-pipeline/src/plot_fastq_scores.py \
+        --untrimmed ${before_trimming} \
+        --trimmed ${after_trimming} \
+        --bar-color ${bar_color} \
+        --flier-color ${flier_color} \
+        --plot-color ${plot_color}
     }
 
     output {
-        File plot_output = glob('plot.pdf')[0]
+        File plot_output = glob('*quality_scores.pdf')[0]
     }
     
     runtime {
-        docker: "quay.io/encode-dcc/demo-pipeline:v1"
+        docker: "quay.io/encode-dcc/demo-pipeline:template"
     }
 }
