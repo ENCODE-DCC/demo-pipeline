@@ -84,7 +84,7 @@ task plot {
     }
 
     output {
-        File plot_output = glob('*quality_scores.pdf')[0]
+        File plot_output = glob('*quality_scores.png')[0]
     }
     
     runtime {
