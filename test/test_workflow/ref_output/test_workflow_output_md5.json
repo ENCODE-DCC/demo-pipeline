@@ -1,4 +1,6 @@
 {
     "trimmed.file1.fastq.gz" : "4237a30333ea342260efb0a4c069b250",
-    "trimmed.file2.fastq.gz" : "f9a0c9b7d7fb1e2b2cf45d8307c69eac"
+    "trimmed.file2.fastq.gz" : "f9a0c9b7d7fb1e2b2cf45d8307c69eac",
+    "file1_untrimmed_trimmed_trimmed_quality_scores.pdf" : "94454c3f58d8d43a42ffba4166ee43ca",
+    "file2_untrimmed_trimmed_trimmed_quality_scores.pdf" : "11caaab43f0207b6caf8f6248e2cee49"
 }

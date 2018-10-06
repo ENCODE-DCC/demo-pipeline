@@ -1,11 +1,14 @@
 workflow toy {
     # inputs
-    Array[File] fastqs
+    Array[File] fastqs = []
     Array[File] trimmed_fastqs = []
-    Int MINLEN
-    Int LEADING
-    Int TRAILING
-    String SLIDINGWINDOW
+    Int MINLEN = 0
+    Int LEADING = 0
+    Int TRAILING = 0
+    String SLIDINGWINDOW = "1:0"
+    String bar_color = 'white'
+    String flier_color = 'grey'
+    String plot_color = 'darkgrid'
 
     Int number_of_fastqs = length(fastqs)
     Int number_of_trimmed_fastqs = length(trimmed_fastqs)
@@ -25,7 +28,10 @@ workflow toy {
     scatter (i in range(number_of_fastqs)){
         call plot { input:
             before_trimming = fastqs[i],
-            after_trimming = trimmed_fastqs_[i]
+            after_trimming = trimmed_fastqs_[i],
+            bar_color = bar_color,
+            flier_color = flier_color,
+            plot_color = plot_color
         }      
     }
 
