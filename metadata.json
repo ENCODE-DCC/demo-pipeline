@@ -2,7 +2,7 @@
   "workflowName": "toy",
   "actualWorkflowLanguageVersion": "draft-2",
   "submittedFiles": {
-    "workflow": "workflow toy {\n    # inputs\n    Array[File] fastqs\n    Array[File] trimmed_fastqs = []\n    Int MINLEN\n    Int LEADING\n    Int TRAILING\n    String SLIDINGWINDOW\n    String bar_color = 'white'\n    String flier_color = 'grey'\n    String plot_color = 'darkgrid'\n\n    Int number_of_fastqs = length(fastqs)\n    Int number_of_trimmed_fastqs = length(trimmed_fastqs)\n\n    scatter (i in range(number_of_fastqs - number_of_trimmed_fastqs)){\n        call trim { input:\n            fastq_file = fastqs[i],\n            min_length = MINLEN,\n            leading = LEADING,\n            trailing = TRAILING,\n            sliding_window = SLIDINGWINDOW\n        }      \n    }\n\n    Array[File] trimmed_fastqs_ = flatten([trim.file, trimmed_fastqs])\n\n    scatter (i in range(number_of_fastqs)){\n        call plot { input:\n            before_trimming = fastqs[i],\n            after_trimming = trimmed_fastqs_[i],\n            bar_color = bar_color,\n            flier_color = flier_color,\n            plot_color = plot_color\n        }      \n    }\n\n    output {\n        Array[File] trimmed_output = trim.file\n        Array[File] plots = plot.plot_output\n    }\n}\n\ntask trim {\n    File fastq_file\n    Int min_length\n    Int leading\n    Int trailing\n    String sliding_window\n    \n    command {\n        input_file=$(echo ${fastq_file} | sed 's/.*\\///')\n        java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \\\n        SE -phred33 ${fastq_file} trimmed.$input_file \\\n        LEADING:${leading} \\\n        TRAILING:${trailing} \\\n        SLIDINGWINDOW:${sliding_window} \\\n        MINLEN:${min_length}\n    }\n\n    output{\n        File file = glob('trimmed.*.fastq.gz')[0]\n    }\n\n    runtime {\n        docker: \"quay.io/encode-dcc/demo-pipeline:template\"\n    }\n}\n\ntask plot {\n    File before_trimming\n    File after_trimming\n    String bar_color = 'white'\n    String flier_color = 'grey'\n    String plot_color = 'darkgrid'\n\n    command {\n        python3 /software/demo-pipeline/src/plot_fastq_scores.py \\\n        --untrimmed ${before_trimming} \\\n        --trimmed ${after_trimming} \\\n        --bar-color ${bar_color} \\\n        --flier-color ${flier_color} \\\n        --plot-color ${plot_color}\n    }\n\n    output {\n        File plot_output = glob('*quality_scores.pdf')[0]\n    }\n    \n    runtime {\n        docker: \"quay.io/encode-dcc/demo-pipeline:template\"\n    }\n}\n",
+    "workflow": "workflow toy {\n    # inputs\n    Array[File] fastqs = []\n    Array[File] trimmed_fastqs = []\n    Int MINLEN = 0\n    Int LEADING = 0\n    Int TRAILING = 0\n    String SLIDINGWINDOW = \"1:0\"\n    String bar_color = 'white'\n    String flier_color = 'grey'\n    String plot_color = 'darkgrid'\n\n    Int number_of_fastqs = length(fastqs)\n    Int number_of_trimmed_fastqs = length(trimmed_fastqs)\n\n    scatter (i in range(number_of_fastqs - number_of_trimmed_fastqs)){\n        call trim { input:\n            fastq_file = fastqs[i],\n            min_length = MINLEN,\n            leading = LEADING,\n            trailing = TRAILING,\n            sliding_window = SLIDINGWINDOW\n        }      \n    }\n\n    Array[File] trimmed_fastqs_ = flatten([trim.file, trimmed_fastqs])\n\n    scatter (i in range(number_of_fastqs)){\n        call plot { input:\n            before_trimming = fastqs[i],\n            after_trimming = trimmed_fastqs_[i],\n            bar_color = bar_color,\n            flier_color = flier_color,\n            plot_color = plot_color\n        }      \n    }\n\n    output {\n        Array[File] trimmed_output = trim.file\n        Array[File] plots = plot.plot_output\n    }\n}\n\ntask trim {\n    File fastq_file\n    Int min_length\n    Int leading\n    Int trailing\n    String sliding_window\n    \n    command {\n        input_file=$(echo ${fastq_file} | sed 's/.*\\///')\n        java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \\\n        SE -phred33 ${fastq_file} trimmed.$input_file \\\n        LEADING:${leading} \\\n        TRAILING:${trailing} \\\n        SLIDINGWINDOW:${sliding_window} \\\n        MINLEN:${min_length}\n    }\n\n    output{\n        File file = glob('trimmed.*.fastq.gz')[0]\n    }\n\n    runtime {\n        docker: \"quay.io/encode-dcc/demo-pipeline:plot-md5_27f1524b-7e8e-4543-9688-9762ba531d92\"\n    }\n}\n\ntask plot {\n    File before_trimming\n    File after_trimming\n    String bar_color = 'white'\n    String flier_color = 'grey'\n    String plot_color = 'darkgrid'\n\n    command {\n        python3 /software/demo-pipeline/src/plot_fastq_scores.py \\\n        --untrimmed ${before_trimming} \\\n        --trimmed ${after_trimming} \\\n        --bar-color ${bar_color} \\\n        --flier-color ${flier_color} \\\n        --plot-color ${plot_color}\n    }\n\n    output {\n        File plot_output = glob('*quality_scores.png')[0]\n    }\n    \n    runtime {\n        docker: \"quay.io/encode-dcc/demo-pipeline:plot-md5_27f1524b-7e8e-4543-9688-9762ba531d92\"\n    }\n}\n",
     "root": "",
     "options": "{\n\n}",
     "inputs": "{\n    \"toy.fastqs\": [\n        \"test/test_data/file1.fastq.gz\",\n        \"test/test_data/file2.fastq.gz\"\n    ],\n    \"toy.LEADING\": 3,\n    \"toy.TRAILING\": 3,\n    \"toy.MINLEN\": 50,\n    \"toy.SLIDINGWINDOW\": \"3:5\",\n    \"toy.bar_color\": \"white\",\n    \"toy.flier_color\": \"grey\",\n    \"toy.plot_color\": \"darkgrid\"\n}",
@@ -12,22 +12,22 @@
   "calls": {
     "toy.trim": [{
       "executionStatus": "Done",
-      "stdout": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-0/execution/stdout",
+      "stdout": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-0/execution/stdout",
       "backendStatus": "Done",
-      "commandLine": "input_file=$(echo /cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-0/inputs/-353176644/file1.fastq.gz | sed 's/.*\\///')\njava -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \\\nSE -phred33 /cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-0/inputs/-353176644/file1.fastq.gz trimmed.$input_file \\\nLEADING:3 \\\nTRAILING:3 \\\nSLIDINGWINDOW:3:5 \\\nMINLEN:50",
+      "commandLine": "input_file=$(echo /cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-0/inputs/-353176644/file1.fastq.gz | sed 's/.*\\///')\njava -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \\\nSE -phred33 /cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-0/inputs/-353176644/file1.fastq.gz trimmed.$input_file \\\nLEADING:3 \\\nTRAILING:3 \\\nSLIDINGWINDOW:3:5 \\\nMINLEN:50",
       "shardIndex": 0,
       "outputs": {
-        "file": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-0/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file1.fastq.gz"
+        "file": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-0/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file1.fastq.gz"
       },
       "runtimeAttributes": {
         "failOnStderr": "false",
-        "docker": "quay.io/encode-dcc/demo-pipeline:template",
+        "docker": "quay.io/encode-dcc/demo-pipeline:plot-md5_27f1524b-7e8e-4543-9688-9762ba531d92",
         "maxRetries": "0",
         "continueOnReturnCode": "0"
       },
       "callCaching": {
-        "allowResultReuse": false,
-        "effectiveCallCachingMode": "CallCachingOff"
+        "effectiveCallCachingMode": "CallCachingOff",
+        "allowResultReuse": false
       },
       "inputs": {
         "fastq_file": "test/test_data/file1.fastq.gz",
@@ -37,53 +37,53 @@
         "leading": 3
       },
       "returnCode": 0,
-      "jobId": "36853",
+      "jobId": "38338",
       "backend": "Local",
-      "end": "2018-10-05T23:27:34.179-07:00",
-      "dockerImageUsed": "quay.io/encode-dcc/demo-pipeline@sha256:b99a407819e6d49d5994043f78ec2d66c7a8fe743b64cd53cda7529279ad4ab3",
-      "stderr": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-0/execution/stderr",
-      "callRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-0",
+      "end": "2018-10-06T14:51:53.091-07:00",
+      "dockerImageUsed": "quay.io/encode-dcc/demo-pipeline@sha256:93e7da8dae697352b8305a45478ee709b51686e3ed88b91eecfc0f8eafeef88d",
+      "stderr": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-0/execution/stderr",
+      "callRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-0",
       "attempt": 1,
       "executionEvents": [{
-        "startTime": "2018-10-05T23:27:30.949-07:00",
-        "endTime": "2018-10-05T23:27:31.461-07:00",
-        "description": "PreparingJob"
+        "startTime": "2018-10-06T14:51:49.546-07:00",
+        "endTime": "2018-10-06T14:51:49.571-07:00",
+        "description": "RequestingExecutionToken"
       }, {
-        "endTime": "2018-10-05T23:27:34.179-07:00",
-        "startTime": "2018-10-05T23:27:34.179-07:00",
+        "endTime": "2018-10-06T14:51:53.090-07:00",
+        "startTime": "2018-10-06T14:51:53.089-07:00",
         "description": "UpdatingJobStore"
       }, {
-        "endTime": "2018-10-05T23:27:30.943-07:00",
-        "description": "RequestingExecutionToken",
-        "startTime": "2018-10-05T23:27:29.990-07:00"
-      }, {
-        "description": "WaitingForValueStore",
-        "startTime": "2018-10-05T23:27:30.943-07:00",
-        "endTime": "2018-10-05T23:27:30.949-07:00"
-      }, {
-        "description": "Pending",
-        "endTime": "2018-10-05T23:27:29.990-07:00",
-        "startTime": "2018-10-05T23:27:29.979-07:00"
-      }, {
         "description": "RunningJob",
-        "endTime": "2018-10-05T23:27:34.179-07:00",
-        "startTime": "2018-10-05T23:27:31.461-07:00"
+        "startTime": "2018-10-06T14:51:50.035-07:00",
+        "endTime": "2018-10-06T14:51:53.089-07:00"
+      }, {
+        "endTime": "2018-10-06T14:51:50.035-07:00",
+        "startTime": "2018-10-06T14:51:49.578-07:00",
+        "description": "PreparingJob"
+      }, {
+        "endTime": "2018-10-06T14:51:49.578-07:00",
+        "startTime": "2018-10-06T14:51:49.571-07:00",
+        "description": "WaitingForValueStore"
+      }, {
+        "endTime": "2018-10-06T14:51:49.546-07:00",
+        "description": "Pending",
+        "startTime": "2018-10-06T14:51:49.532-07:00"
       }],
-      "start": "2018-10-05T23:27:29.968-07:00"
+      "start": "2018-10-06T14:51:49.522-07:00"
     }, {
       "executionStatus": "Done",
-      "stdout": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-1/execution/stdout",
+      "stdout": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-1/execution/stdout",
       "backendStatus": "Done",
-      "commandLine": "input_file=$(echo /cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-1/inputs/-353176644/file2.fastq.gz | sed 's/.*\\///')\njava -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \\\nSE -phred33 /cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-1/inputs/-353176644/file2.fastq.gz trimmed.$input_file \\\nLEADING:3 \\\nTRAILING:3 \\\nSLIDINGWINDOW:3:5 \\\nMINLEN:50",
+      "commandLine": "input_file=$(echo /cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-1/inputs/-353176644/file2.fastq.gz | sed 's/.*\\///')\njava -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \\\nSE -phred33 /cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-1/inputs/-353176644/file2.fastq.gz trimmed.$input_file \\\nLEADING:3 \\\nTRAILING:3 \\\nSLIDINGWINDOW:3:5 \\\nMINLEN:50",
       "shardIndex": 1,
       "outputs": {
-        "file": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-1/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file2.fastq.gz"
+        "file": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-1/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file2.fastq.gz"
       },
       "runtimeAttributes": {
+        "docker": "quay.io/encode-dcc/demo-pipeline:plot-md5_27f1524b-7e8e-4543-9688-9762ba531d92",
         "continueOnReturnCode": "0",
-        "maxRetries": "0",
-        "docker": "quay.io/encode-dcc/demo-pipeline:template",
-        "failOnStderr": "false"
+        "failOnStderr": "false",
+        "maxRetries": "0"
       },
       "callCaching": {
         "effectiveCallCachingMode": "CallCachingOff",
@@ -97,169 +97,169 @@
         "leading": 3
       },
       "returnCode": 0,
-      "jobId": "36854",
+      "jobId": "38337",
       "backend": "Local",
-      "end": "2018-10-05T23:27:33.427-07:00",
-      "dockerImageUsed": "quay.io/encode-dcc/demo-pipeline@sha256:b99a407819e6d49d5994043f78ec2d66c7a8fe743b64cd53cda7529279ad4ab3",
-      "stderr": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-1/execution/stderr",
-      "callRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-1",
+      "end": "2018-10-06T14:51:53.090-07:00",
+      "dockerImageUsed": "quay.io/encode-dcc/demo-pipeline@sha256:93e7da8dae697352b8305a45478ee709b51686e3ed88b91eecfc0f8eafeef88d",
+      "stderr": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-1/execution/stderr",
+      "callRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-1",
       "attempt": 1,
       "executionEvents": [{
-        "description": "RunningJob",
-        "endTime": "2018-10-05T23:27:33.426-07:00",
-        "startTime": "2018-10-05T23:27:31.461-07:00"
+        "endTime": "2018-10-06T14:51:49.546-07:00",
+        "startTime": "2018-10-06T14:51:49.532-07:00",
+        "description": "Pending"
       }, {
-        "startTime": "2018-10-05T23:27:30.943-07:00",
-        "description": "WaitingForValueStore",
-        "endTime": "2018-10-05T23:27:30.949-07:00"
-      }, {
-        "endTime": "2018-10-05T23:27:33.427-07:00",
+        "endTime": "2018-10-06T14:51:53.090-07:00",
         "description": "UpdatingJobStore",
-        "startTime": "2018-10-05T23:27:33.426-07:00"
+        "startTime": "2018-10-06T14:51:53.089-07:00"
       }, {
-        "endTime": "2018-10-05T23:27:30.943-07:00",
-        "startTime": "2018-10-05T23:27:29.990-07:00",
-        "description": "RequestingExecutionToken"
+        "description": "WaitingForValueStore",
+        "startTime": "2018-10-06T14:51:49.571-07:00",
+        "endTime": "2018-10-06T14:51:49.578-07:00"
       }, {
-        "endTime": "2018-10-05T23:27:29.990-07:00",
-        "description": "Pending",
-        "startTime": "2018-10-05T23:27:29.979-07:00"
-      }, {
-        "endTime": "2018-10-05T23:27:31.461-07:00",
         "description": "PreparingJob",
-        "startTime": "2018-10-05T23:27:30.949-07:00"
+        "endTime": "2018-10-06T14:51:50.035-07:00",
+        "startTime": "2018-10-06T14:51:49.578-07:00"
+      }, {
+        "description": "RunningJob",
+        "startTime": "2018-10-06T14:51:50.035-07:00",
+        "endTime": "2018-10-06T14:51:53.089-07:00"
+      }, {
+        "description": "RequestingExecutionToken",
+        "endTime": "2018-10-06T14:51:49.571-07:00",
+        "startTime": "2018-10-06T14:51:49.546-07:00"
       }],
-      "start": "2018-10-05T23:27:29.970-07:00"
+      "start": "2018-10-06T14:51:49.519-07:00"
     }],
     "toy.plot": [{
       "executionStatus": "Done",
-      "stdout": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-0/execution/stdout",
+      "stdout": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-0/execution/stdout",
       "backendStatus": "Done",
-      "commandLine": "python3 /software/demo-pipeline/src/plot_fastq_scores.py \\\n--untrimmed /cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-0/inputs/-353176644/file1.fastq.gz \\\n--trimmed /cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-0/inputs/-649321977/trimmed.file1.fastq.gz \\\n--bar-color white \\\n--flier-color grey \\\n--plot-color darkgrid",
+      "commandLine": "python3 /software/demo-pipeline/src/plot_fastq_scores.py \\\n--untrimmed /cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-0/inputs/-353176644/file1.fastq.gz \\\n--trimmed /cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-0/inputs/1136357592/trimmed.file1.fastq.gz \\\n--bar-color white \\\n--flier-color grey \\\n--plot-color darkgrid",
       "shardIndex": 0,
       "outputs": {
-        "plot_output": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-0/execution/glob-e4d372561353f25fb9824bd4a74ffb7d/file1_untrimmed_trimmed_trimmed_quality_scores.pdf"
+        "plot_output": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-0/execution/glob-e3529eba92607d1ab8d47b9533e28eac/file1_untrimmed_trimmed_trimmed_quality_scores.png"
       },
       "runtimeAttributes": {
-        "maxRetries": "0",
-        "docker": "quay.io/encode-dcc/demo-pipeline:template",
-        "failOnStderr": "false",
-        "continueOnReturnCode": "0"
-      },
-      "callCaching": {
-        "effectiveCallCachingMode": "CallCachingOff",
-        "allowResultReuse": false
-      },
-      "inputs": {
-        "after_trimming": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-0/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file1.fastq.gz",
-        "flier_color": "grey",
-        "plot_color": "darkgrid",
-        "bar_color": "white",
-        "before_trimming": "test/test_data/file1.fastq.gz"
-      },
-      "returnCode": 0,
-      "jobId": "36879",
-      "backend": "Local",
-      "end": "2018-10-05T23:27:55.779-07:00",
-      "dockerImageUsed": "quay.io/encode-dcc/demo-pipeline@sha256:b99a407819e6d49d5994043f78ec2d66c7a8fe743b64cd53cda7529279ad4ab3",
-      "stderr": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-0/execution/stderr",
-      "callRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-0",
-      "attempt": 1,
-      "executionEvents": [{
-        "endTime": "2018-10-05T23:27:38.937-07:00",
-        "description": "WaitingForValueStore",
-        "startTime": "2018-10-05T23:27:38.936-07:00"
-      }, {
-        "endTime": "2018-10-05T23:27:38.941-07:00",
-        "description": "PreparingJob",
-        "startTime": "2018-10-05T23:27:38.937-07:00"
-      }, {
-        "endTime": "2018-10-05T23:27:38.936-07:00",
-        "startTime": "2018-10-05T23:27:38.128-07:00",
-        "description": "RequestingExecutionToken"
-      }, {
-        "startTime": "2018-10-05T23:27:55.778-07:00",
-        "description": "UpdatingJobStore",
-        "endTime": "2018-10-05T23:27:55.779-07:00"
-      }, {
-        "endTime": "2018-10-05T23:27:55.778-07:00",
-        "description": "RunningJob",
-        "startTime": "2018-10-05T23:27:38.941-07:00"
-      }, {
-        "startTime": "2018-10-05T23:27:38.128-07:00",
-        "endTime": "2018-10-05T23:27:38.128-07:00",
-        "description": "Pending"
-      }],
-      "start": "2018-10-05T23:27:38.127-07:00"
-    }, {
-      "executionStatus": "Done",
-      "stdout": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-1/execution/stdout",
-      "backendStatus": "Done",
-      "commandLine": "python3 /software/demo-pipeline/src/plot_fastq_scores.py \\\n--untrimmed /cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-1/inputs/-353176644/file2.fastq.gz \\\n--trimmed /cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-1/inputs/-657081336/trimmed.file2.fastq.gz \\\n--bar-color white \\\n--flier-color grey \\\n--plot-color darkgrid",
-      "shardIndex": 1,
-      "outputs": {
-        "plot_output": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-1/execution/glob-e4d372561353f25fb9824bd4a74ffb7d/file2_untrimmed_trimmed_trimmed_quality_scores.pdf"
-      },
-      "runtimeAttributes": {
-        "docker": "quay.io/encode-dcc/demo-pipeline:template",
+        "docker": "quay.io/encode-dcc/demo-pipeline:plot-md5_27f1524b-7e8e-4543-9688-9762ba531d92",
         "continueOnReturnCode": "0",
-        "maxRetries": "0",
-        "failOnStderr": "false"
+        "failOnStderr": "false",
+        "maxRetries": "0"
       },
       "callCaching": {
         "allowResultReuse": false,
         "effectiveCallCachingMode": "CallCachingOff"
       },
       "inputs": {
-        "after_trimming": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-1/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file2.fastq.gz",
+        "after_trimming": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-0/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file1.fastq.gz",
+        "flier_color": "grey",
+        "plot_color": "darkgrid",
+        "bar_color": "white",
+        "before_trimming": "test/test_data/file1.fastq.gz"
+      },
+      "returnCode": 0,
+      "jobId": "38365",
+      "backend": "Local",
+      "end": "2018-10-06T14:52:10.268-07:00",
+      "dockerImageUsed": "quay.io/encode-dcc/demo-pipeline@sha256:93e7da8dae697352b8305a45478ee709b51686e3ed88b91eecfc0f8eafeef88d",
+      "stderr": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-0/execution/stderr",
+      "callRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-0",
+      "attempt": 1,
+      "executionEvents": [{
+        "endTime": "2018-10-06T14:52:10.268-07:00",
+        "startTime": "2018-10-06T14:52:10.268-07:00",
+        "description": "UpdatingJobStore"
+      }, {
+        "endTime": "2018-10-06T14:51:57.563-07:00",
+        "description": "RequestingExecutionToken",
+        "startTime": "2018-10-06T14:51:56.667-07:00"
+      }, {
+        "endTime": "2018-10-06T14:52:10.268-07:00",
+        "description": "RunningJob",
+        "startTime": "2018-10-06T14:51:57.568-07:00"
+      }, {
+        "startTime": "2018-10-06T14:51:56.667-07:00",
+        "endTime": "2018-10-06T14:51:56.667-07:00",
+        "description": "Pending"
+      }, {
+        "endTime": "2018-10-06T14:51:57.564-07:00",
+        "description": "WaitingForValueStore",
+        "startTime": "2018-10-06T14:51:57.563-07:00"
+      }, {
+        "endTime": "2018-10-06T14:51:57.568-07:00",
+        "startTime": "2018-10-06T14:51:57.564-07:00",
+        "description": "PreparingJob"
+      }],
+      "start": "2018-10-06T14:51:56.666-07:00"
+    }, {
+      "executionStatus": "Done",
+      "stdout": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-1/execution/stdout",
+      "backendStatus": "Done",
+      "commandLine": "python3 /software/demo-pipeline/src/plot_fastq_scores.py \\\n--untrimmed /cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-1/inputs/-353176644/file2.fastq.gz \\\n--trimmed /cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-1/inputs/1128598233/trimmed.file2.fastq.gz \\\n--bar-color white \\\n--flier-color grey \\\n--plot-color darkgrid",
+      "shardIndex": 1,
+      "outputs": {
+        "plot_output": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-1/execution/glob-e3529eba92607d1ab8d47b9533e28eac/file2_untrimmed_trimmed_trimmed_quality_scores.png"
+      },
+      "runtimeAttributes": {
+        "failOnStderr": "false",
+        "docker": "quay.io/encode-dcc/demo-pipeline:plot-md5_27f1524b-7e8e-4543-9688-9762ba531d92",
+        "continueOnReturnCode": "0",
+        "maxRetries": "0"
+      },
+      "callCaching": {
+        "effectiveCallCachingMode": "CallCachingOff",
+        "allowResultReuse": false
+      },
+      "inputs": {
+        "after_trimming": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-1/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file2.fastq.gz",
         "flier_color": "grey",
         "plot_color": "darkgrid",
         "bar_color": "white",
         "before_trimming": "test/test_data/file2.fastq.gz"
       },
       "returnCode": 0,
-      "jobId": "36880",
+      "jobId": "38366",
       "backend": "Local",
-      "end": "2018-10-05T23:27:55.570-07:00",
-      "dockerImageUsed": "quay.io/encode-dcc/demo-pipeline@sha256:b99a407819e6d49d5994043f78ec2d66c7a8fe743b64cd53cda7529279ad4ab3",
-      "stderr": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-1/execution/stderr",
-      "callRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-1",
+      "end": "2018-10-06T14:52:10.110-07:00",
+      "dockerImageUsed": "quay.io/encode-dcc/demo-pipeline@sha256:93e7da8dae697352b8305a45478ee709b51686e3ed88b91eecfc0f8eafeef88d",
+      "stderr": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-1/execution/stderr",
+      "callRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-1",
       "attempt": 1,
       "executionEvents": [{
-        "endTime": "2018-10-05T23:27:55.570-07:00",
+        "endTime": "2018-10-06T14:51:57.567-07:00",
+        "description": "PreparingJob",
+        "startTime": "2018-10-06T14:51:57.563-07:00"
+      }, {
+        "startTime": "2018-10-06T14:52:10.110-07:00",
         "description": "UpdatingJobStore",
-        "startTime": "2018-10-05T23:27:55.570-07:00"
+        "endTime": "2018-10-06T14:52:10.110-07:00"
       }, {
-        "startTime": "2018-10-05T23:27:38.937-07:00",
-        "endTime": "2018-10-05T23:27:38.941-07:00",
-        "description": "PreparingJob"
+        "description": "Pending",
+        "startTime": "2018-10-06T14:51:56.666-07:00",
+        "endTime": "2018-10-06T14:51:56.667-07:00"
       }, {
-        "endTime": "2018-10-05T23:27:38.937-07:00",
-        "startTime": "2018-10-05T23:27:38.936-07:00",
+        "endTime": "2018-10-06T14:51:57.563-07:00",
+        "startTime": "2018-10-06T14:51:57.563-07:00",
         "description": "WaitingForValueStore"
       }, {
-        "endTime": "2018-10-05T23:27:55.570-07:00",
-        "startTime": "2018-10-05T23:27:38.941-07:00",
-        "description": "RunningJob"
+        "endTime": "2018-10-06T14:52:10.110-07:00",
+        "description": "RunningJob",
+        "startTime": "2018-10-06T14:51:57.567-07:00"
       }, {
-        "startTime": "2018-10-05T23:27:38.128-07:00",
-        "endTime": "2018-10-05T23:27:38.129-07:00",
-        "description": "Pending"
-      }, {
-        "endTime": "2018-10-05T23:27:38.936-07:00",
-        "description": "RequestingExecutionToken",
-        "startTime": "2018-10-05T23:27:38.129-07:00"
+        "startTime": "2018-10-06T14:51:56.667-07:00",
+        "endTime": "2018-10-06T14:51:57.563-07:00",
+        "description": "RequestingExecutionToken"
       }],
-      "start": "2018-10-05T23:27:38.128-07:00"
+      "start": "2018-10-06T14:51:56.666-07:00"
     }]
   },
   "outputs": {
-    "toy.trimmed_output": ["/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-0/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file1.fastq.gz", "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-trim/shard-1/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file2.fastq.gz"],
-    "toy.plots": ["/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-0/execution/glob-e4d372561353f25fb9824bd4a74ffb7d/file1_untrimmed_trimmed_trimmed_quality_scores.pdf", "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b/call-plot/shard-1/execution/glob-e4d372561353f25fb9824bd4a74ffb7d/file2_untrimmed_trimmed_trimmed_quality_scores.pdf"]
+    "toy.trimmed_output": ["/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-0/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file1.fastq.gz", "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-trim/shard-1/execution/glob-7b21ec03e58b9713c08801c6d8844e17/trimmed.file2.fastq.gz"],
+    "toy.plots": ["/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-0/execution/glob-e3529eba92607d1ab8d47b9533e28eac/file1_untrimmed_trimmed_trimmed_quality_scores.png", "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3/call-plot/shard-1/execution/glob-e3529eba92607d1ab8d47b9533e28eac/file2_untrimmed_trimmed_trimmed_quality_scores.png"]
   },
-  "workflowRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/5ec28bab-a20f-400f-b302-ac4b2a13c55b",
+  "workflowRoot": "/Users/idan/Documents/Repositories/demo-pipeline/cromwell-executions/toy/e972cfa9-a001-4736-86f1-42ea92d936b3",
   "actualWorkflowLanguage": "WDL",
-  "id": "5ec28bab-a20f-400f-b302-ac4b2a13c55b",
+  "id": "e972cfa9-a001-4736-86f1-42ea92d936b3",
   "inputs": {
     "toy.plot_color": "darkgrid",
     "toy.SLIDINGWINDOW": "3:5",
@@ -272,10 +272,10 @@
     "toy.MINLEN": 50
   },
   "labels": {
-    "cromwell-workflow-id": "cromwell-5ec28bab-a20f-400f-b302-ac4b2a13c55b"
+    "cromwell-workflow-id": "cromwell-e972cfa9-a001-4736-86f1-42ea92d936b3"
   },
-  "submission": "2018-10-05T23:27:23.971-07:00",
+  "submission": "2018-10-06T14:51:43.584-07:00",
   "status": "Succeeded",
-  "end": "2018-10-05T23:27:58.556-07:00",
-  "start": "2018-10-05T23:27:24.018-07:00"
+  "end": "2018-10-06T14:52:13.011-07:00",
+  "start": "2018-10-06T14:51:43.626-07:00"
 }
