@@ -1,4 +1,4 @@
-import "../toy.wdl" as toy
+import "../../toy.wdl" as toy
 
 workflow trim {
     File fastq
