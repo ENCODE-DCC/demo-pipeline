@@ -1,15 +1,16 @@
 workflow toy {
     # inputs
     Array[File] fastqs
+    Array[File] trimmed_fastqs = []
     Int MINLEN
     Int LEADING
     Int TRAILING
     String SLIDINGWINDOW
 
-    #determine range of scatter
-    Int sequencing_runs_length = length(fastqs)
-    
-    scatter (i in range(sequencing_runs_length)){
+    Int number_of_fastqs = length(fastqs)
+    Int number_of_trimmed_fastqs = length(trimmed_fastqs)
+
+    scatter (i in range(number_of_fastqs - number_of_trimmed_fastqs)){
         call trim { input:
             fastq_file = fastqs[i],
             min_length = MINLEN,
@@ -19,8 +20,18 @@ workflow toy {
         }      
     }
 
+    Array[File] trimmed_fastqs_ = flatten([trim.file, trimmed_fastqs])
+
+    scatter (i in range(number_of_fastqs)){
+        call plot { input:
+            before_trimming = fastqs[i],
+            after_trimming = trimmed_fastqs_[i]
+        }      
+    }
+
     output {
-        Array[File] output = trim.file
+        Array[File] trimmed_output = trim.file
+        Array[File] plots = plot.plot_output
     }
 }
 
@@ -40,6 +51,23 @@ task trim {
         File file = glob('trimmed.*.fastq.gz')[0]
     }
 
+    runtime {
+        docker: "quay.io/encode-dcc/demo-pipeline:v1"
+    }
+}
+
+task plot {
+    File before_trimming
+    File after_trimming
+
+    command {
+        touch plot.pdf
+    }
+
+    output {
+        File plot_output = glob('plot.pdf')[0]
+    }
+    
     runtime {
         docker: "quay.io/encode-dcc/demo-pipeline:v1"
     }

@@ -1,4 +1,4 @@
-import "../toy.wdl" as toy
+import "../../toy.wdl" as toy
 
 workflow trim {
     File fastq
@@ -16,6 +16,6 @@ workflow trim {
     }
 
     output {
-        File output = trim.file
+        File trimmed_fastq = trim.file
     }
 }

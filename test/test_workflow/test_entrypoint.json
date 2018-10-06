@@ -1,0 +1,10 @@
+{
+    "toy.fastqs": [
+        "test/test_data/file1.fastq.gz",
+        "test/test_data/file2.fastq.gz"
+    ],
+    "toy.trimmed_fastqs": [
+        "test/test_data/file1.fastq.gz",
+        "test/test_data/file2.fastq.gz"
+    ]
+}
