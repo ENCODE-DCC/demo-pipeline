@@ -8,6 +8,10 @@ import logging
 
 from Bio import SeqIO
 from collections import namedtuple
+
+import matplotlib
+# Must run before pyplot import.
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -136,7 +140,7 @@ def parse_file_name(filepath):
 def save_plot(figure, untrimmed_name, trimmed_name):
     logging.debug('Saving plot')
     figure.savefig(
-        '{}_untrimmed_{}_trimmed_quality_scores.pdf'.format(
+        '{}_untrimmed_{}_trimmed_quality_scores.png'.format(
             untrimmed_name,
             trimmed_name,
         ),

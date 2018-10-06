@@ -1,11 +1,14 @@
 workflow toy {
     # inputs
-    Array[File] fastqs
+    Array[File] fastqs = []
     Array[File] trimmed_fastqs = []
-    Int MINLEN
-    Int LEADING
-    Int TRAILING
-    String SLIDINGWINDOW
+    Int MINLEN = 0
+    Int LEADING = 0
+    Int TRAILING = 0
+    String SLIDINGWINDOW = "1:0"
+    String bar_color = 'white'
+    String flier_color = 'grey'
+    String plot_color = 'darkgrid'
 
     Int number_of_fastqs = length(fastqs)
     Int number_of_trimmed_fastqs = length(trimmed_fastqs)
@@ -25,7 +28,10 @@ workflow toy {
     scatter (i in range(number_of_fastqs)){
         call plot { input:
             before_trimming = fastqs[i],
-            after_trimming = trimmed_fastqs_[i]
+            after_trimming = trimmed_fastqs_[i],
+            bar_color = bar_color,
+            flier_color = flier_color,
+            plot_color = plot_color
         }      
     }
 
@@ -44,7 +50,12 @@ task trim {
     
     command {
         input_file=$(echo ${fastq_file} | sed 's/.*\///')
-        java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar SE -phred33 ${fastq_file} trimmed.$input_file LEADING:${leading} TRAILING:${trailing} SLIDINGWINDOW:${sliding_window} MINLEN:${min_length}
+        java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \
+        SE -phred33 ${fastq_file} trimmed.$input_file \
+        LEADING:${leading} \
+        TRAILING:${trailing} \
+        SLIDINGWINDOW:${sliding_window} \
+        MINLEN:${min_length}
     }
 
     output{
@@ -52,23 +63,31 @@ task trim {
     }
 
     runtime {
-        docker: "quay.io/encode-dcc/demo-pipeline:v1"
+        docker: "quay.io/encode-dcc/demo-pipeline:template"
     }
 }
 
 task plot {
     File before_trimming
     File after_trimming
+    String bar_color = 'white'
+    String flier_color = 'grey'
+    String plot_color = 'darkgrid'
 
     command {
-        touch plot.pdf
+        python3 /software/demo-pipeline/src/plot_fastq_scores.py \
+        --untrimmed ${before_trimming} \
+        --trimmed ${after_trimming} \
+        --bar-color ${bar_color} \
+        --flier-color ${flier_color} \
+        --plot-color ${plot_color}
     }
 
     output {
-        File plot_output = glob('plot.pdf')[0]
+        File plot_output = glob('*quality_scores.png')[0]
     }
     
     runtime {
-        docker: "quay.io/encode-dcc/demo-pipeline:v1"
+        docker: "quay.io/encode-dcc/demo-pipeline:template"
     }
 }

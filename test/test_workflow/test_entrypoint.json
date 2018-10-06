@@ -6,5 +6,8 @@
     "toy.trimmed_fastqs": [
         "test/test_data/file1.fastq.gz",
         "test/test_data/file2.fastq.gz"
-    ]
+    ],
+    "toy.bar_color": "white",
+    "toy.flier_color": "red",
+    "toy.plot_color": "darkgrid"
 }

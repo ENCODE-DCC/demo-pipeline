@@ -1,7 +1,7 @@
 {
-    "trim.fastq": "test/test_data/file1.fastq.gz",
-    "trim.LEADING": 3,
-    "trim.TRAILING": 3,
-    "trim.MINLEN": 50,
-    "trim.SLIDINGWINDOW": "3:15"
+    "plot.before_trimming": "test/test_data/file1.fastq.gz",
+    "plot.after_trimming": "test/test_data/file2.fastq.gz",
+    "plot.bar_color": "white",
+    "plot.flier_color": "grey",
+    "plot.plot_color": "darkgrid"
 }

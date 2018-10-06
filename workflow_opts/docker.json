@@ -1,6 +1,6 @@
 {
     "default_runtime_attributes": {
-        "docker" : "quay.io/gabdank/toy:v2",
+        "docker" : "quay.io/encode-dcc/demo-pipeline:template",
         "zones": "us-west1-a us-west1-b us-west1-c us-east1-b",
         "preemptible": "0",
         "bootDiskSizeGb": "10",

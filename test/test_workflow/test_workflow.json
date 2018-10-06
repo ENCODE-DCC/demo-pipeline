@@ -6,5 +6,8 @@
     "toy.LEADING": 3,
     "toy.TRAILING": 3,
     "toy.MINLEN": 50,
-    "toy.SLIDINGWINDOW": "3:5"
+    "toy.SLIDINGWINDOW": "3:5",
+    "toy.bar_color": "white",
+    "toy.flier_color": "grey",
+    "toy.plot_color": "darkgrid"
 }
