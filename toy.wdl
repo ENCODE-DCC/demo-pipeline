@@ -44,7 +44,12 @@ task trim {
     
     command {
         input_file=$(echo ${fastq_file} | sed 's/.*\///')
-        java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar SE -phred33 ${fastq_file} trimmed.$input_file LEADING:${leading} TRAILING:${trailing} SLIDINGWINDOW:${sliding_window} MINLEN:${min_length}
+        java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \
+        SE -phred33 ${fastq_file} trimmed.$input_file \
+        LEADING:${leading} \
+        TRAILING:${trailing} \
+        SLIDINGWINDOW:${sliding_window} \
+        MINLEN:${min_length}
     }
 
     output{
