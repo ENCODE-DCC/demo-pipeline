@@ -133,5 +133,7 @@ workflows:
       - test_python_scripts
       - build:
           requires:
+            - test_workflow
             - test_trimming_task
             - test_plotting_task
+            - test_python_scripts
