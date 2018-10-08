@@ -132,15 +132,15 @@ workflows:
   build_workflow:
     jobs:
       - build
-      - test_python_scripts
+      - test_python_scripts:
           requires:
             - build
-      - test_workflow
+      - test _workflow:
           requires:
             - build
-      - test_trimming_task
+      - test_trimming_task:
           requires:
             - build
-      - test_plotting_task
+      - test_plotting_task:
           requires:
             - build
