@@ -130,7 +130,7 @@ def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data,
 def parse_file_name(filepath):
     return '_'.join(
         [
-            f.split('.')[0]
+            f.split('.')[1 if 'trimmed' in f else 0]
             for f in filepath.split('/')
             if 'fastq' in f
         ]

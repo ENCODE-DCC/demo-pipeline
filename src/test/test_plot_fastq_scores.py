@@ -42,3 +42,4 @@ def test_gather_scores_for_fastq():
 def test_parse_file_name():
     from plot_fastq_scores import parse_file_name
     assert parse_file_name('../../ABC123.fastq.gz') == 'ABC123'
+    assert parse_file_name('../../trimmed.ABC123.fastq.gz') == 'ABC123'
