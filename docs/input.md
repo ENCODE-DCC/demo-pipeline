@@ -51,14 +51,9 @@ dxWDL (DNANexus CLI for WDL) does not support definition of task level variables
 
 CPU (`cpu`), memory (`mem_mb`) settings are used for submitting jobs to cluster engines (SGE and SLURM) and Cloud platforms (Google Cloud Platform, AWS, ...). VM instance type on cloud platforms will be automatically chosen according to each task's `cpu` and `mem_mb`. Number of cores for tasks without `cpu` parameter is fixed at 1.
 
-* `"toy.trim.cpu"` : (optional) Number of cores for `trim` (default: 2).
-* `"toy.trim.mem_mb"` : (optional) Max. memory limit in MB for `trim` (default: 10000).
-
-Disks (`disks`) is used for Cloud platforms (Google Cloud Platforms, AWS, ...).
-
-* `"toy.trim.disks"` : (optional) Disks for `trim` (default: "local-disk 100 HDD").
-
-Walltime (`time`) settings (for SGE and SLURM only).
-
-* `"toy.trim.time_hr"` : (optional) Walltime for `trim` (default: 24).
-
+|task|parameter|type|need|default|description|
+|-|-|-|-|-|-|
+|trim|toy.trim.cpu|int|optional|2|number of cores for task|
+|trim|toy.trim.mem_mb|int|optional|10000|maximum memory limit in MB for task|
+|trim|toy.trim.disks|string|optional|"local-disk 100 HDD"|disks for task, only used for used for Cloud platforms (Google Cloud Platforms, AWS, etc.)|
+|trim|toy.trim.time_hr|int|optional|24|walltime for task, for SGE and SLURM only|
