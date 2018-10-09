@@ -39,7 +39,8 @@ $ java -jar -Dconfig.file=backends/backend.conf cromwell-35.jar run toy.wdl -i i
     "toy.plots": ["[cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality_scores.png"]
   },
   "id": "abc123"
-}```
+}
+```
 
 5. Examine quality score plot:
 ```bash
