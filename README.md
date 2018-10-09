@@ -7,7 +7,12 @@
 ENCODE demo-pipeline
 ========================
 
-This pipeline is designed to demonstrate the ENCODE pipeline development framework. The pipeline can be run on compute clusters with job-submission engines or stand-alone machines. It inherently makes use of parallelized/distributed computing. Pipeline installation is simple as most dependencies are automatically installed. The pipeline supports only single-end FASTQs to avoid unnecessary complexity. The pipeline uses [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) software to trim input FASTQs. The output includes the trimmed FASTQ and a plot of FASTQ quality scores before and after trimming.
+This pipeline demonstrates the ENCODE pipeline reproducibility framework. Any pipeline deployed in this framework can be run on the cloud, on compute clusters with job-submission engines, or on stand-alone machines. It inherently makes use of parallelized/distributed computing. Pipeline installation is simple as most dependencies are automatically installed.
+
+Here we implement a simple bioinformatics pipeline but surround it with all of the ENCODE pipeline reproducibility infrastructure.  The bioinformatic task is to use the [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) software to trim input FASTQs. The output includes the trimmed FASTQ and a plot of FASTQ quality scores before and after trimming. For simplicity this demo supports only single-end FASTQs.
+
+After experimenting with this repo you can create your own fork and use it as a template to deploy your own pipeline, inheriting all of the multi-platform and reproducibility features.
+
 
 # Local quickstart
 
