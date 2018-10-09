@@ -17,7 +17,7 @@ This document describes instruction for the item 2).
 3. Move to one of the following workflow directories according to the platform you have chosen for your project (AWS or Azure - AWS is slightly faster). These DX workflows are pre-built with all parameters defined.
 
 * [AWS demo workflow](https://platform.dnanexus.com/projects/BKpvFg00VBPV975PgJ6Q03v6/data/Demo/workflows)
-* [Azure demo workflow]()
+* [Azure demo workflow](https://platform.dnanexus.com/projects/F6K911Q9xyfgJ36JFzv03Z5J/data/Demo/workflows)
 
 4. Copy it to your project by right-clicking on the DX workflow `toy` and choose "Copy". 
 
