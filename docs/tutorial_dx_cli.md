@@ -31,7 +31,7 @@ This document describes instruction for the item 1).
     ```
 
 6. Choose an appropriate input for your project (AWS or Azure):
-    * AWS
+    * AWS (recommended as it is faster)
       ```
         $ INPUT=examples/dx/input.json
       ```
@@ -45,7 +45,7 @@ This document describes instruction for the item 1).
       $ PROJECT=[YOUR_PROJECT_NAME]
       $ OUT_FOLDER=/demo_pipeline_toy
 
-      $ java -jar dxWDL-0.77.jar compile toy.wdl -project ${PROJECT} -f -folder ${OUT_FOLDER} -defaults ${INPUT} -extras workflow_opts/docker.json
+      $ java -jar dxWDL-0.78.jar compile toy.wdl -project ${PROJECT} -f -folder ${OUT_FOLDER} -defaults ${INPUT} -extras workflow_opts/docker.json
     ```
 
 8. Go to DNANexus [project page](https://platform.dnanexus.com/projects) and click on your project.
@@ -58,6 +58,6 @@ This document describes instruction for the item 1).
 
 12. Click on "Run as Analysis..." and you will be automatically redirected to the "Monitor" tab.
 
-13. It will take about an hour. You will be able to find all outputs on your output folder. Final QC report (`qc.html`)/JSON (`qc.json`) will be found on it.
+13. It will take about 15 minutes to run (30 minutes on Azure). You will be able to find all outputs on your output folder.
 
 14. See full specification for [input JSON file](input.md).
