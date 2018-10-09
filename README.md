@@ -11,7 +11,7 @@ This pipeline is designed to demonstrate the ENCODE pipeline development framewo
 
 # Local quickstart
 
-1. Install dependencies:
+1. Clone this repo and install dependencies:
    * [Java 8](https://www.java.com/en/download/) or higher.
    * [Cromwell](https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar)
    * [Docker CE](https://docs.docker.com/install/)
