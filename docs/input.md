@@ -47,7 +47,7 @@ dxWDL (DNANexus CLI for WDL) does not support definition of task level variables
 
 ## Resource
 
-**RESOURCES DEFINED IN AN INPUT JSON ARE PER TASK**. For example, if you have two input FASTQs (2 tasks) and set `cpu` for `trimming` task as 4 then total number of cpu cores to trim FASTQs is 2 x 4 = 8.
+**RESOURCES DEFINED IN AN INPUT JSON ARE PER TASK**. For example, if you have two input FASTQs (two tasks) and set `cpu` for `trimming` task as four then total number of cpu cores to trim FASTQs is 2 x 4 = 8.
 
 CPU (`cpu`), memory (`mem_mb`) settings are used for submitting jobs to cluster engines (SGE and SLURM) and Cloud platforms (Google Cloud Platform, AWS, ...). VM instance type on cloud platforms will be automatically chosen according to each task's `cpu` and `mem_mb`. Number of cores for tasks without `cpu` parameter is fixed at 1.
 
