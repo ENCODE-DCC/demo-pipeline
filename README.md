@@ -30,7 +30,7 @@ $ java -jar -Dconfig.file=backends/backend.conf cromwell-35.jar run toy.wdl -i i
 $ open /cromwell/execution/path/file1_untrimmed_file1_trimmed_quality_scores.png
 ```
 <p align="center">
-<img style="float:left;" width="500" src="https://github.com/ENCODE-DCC/demo-pipeline/tree/master/examples/local">
+<img style="float:left;" width="500" src="https://raw.githubusercontent.com/ENCODE-DCC/demo-pipeline/documentation/examples/local/output_plot/file1_untrimmed_file1_trimmed_quality_scores.png">
 </p>
 
 
