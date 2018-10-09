@@ -1,7 +1,7 @@
 ENCODE demo-pipeline
 ========================
 
-This pipeline is designed to demonstrate the ENCODE pipeline development framework. The pipeline can be run on compute clusters with job submission engines or stand alone machines. It inherently makes use of parallelized/distributed computing. Pipeline installation is simple as most dependencies are automatically installed. The pipeline supports only single-end FASTQs to avoid unnecessary complexity. The pipeline uses Trimmomatic software to trim input FASTQs. The output includes the trimmed FASTQ and a plot of FASTQ quality scores before and after trimming.
+This pipeline is designed to demonstrate the ENCODE pipeline development framework. The pipeline can be run on compute clusters with job submission engines or stand-alone machines. It inherently makes use of parallelized/distributed computing. Pipeline installation is simple as most dependencies are automatically installed. The pipeline supports only single-end FASTQs to avoid unnecessary complexity. The pipeline uses Trimmomatic software to trim input FASTQs. The output includes the trimmed FASTQ and a plot of FASTQ quality scores before and after trimming.
 
 # Installation / Tutorial
 
