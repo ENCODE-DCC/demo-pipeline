@@ -11,7 +11,7 @@ An input JSON file includes all input parameters and metadata for running pipeli
 
 dxWDL (DNANexus CLI for WDL) does not support definition of task level variables with a prefix `toy.` in an input JSON file. Therefore, `toy.[TASK_NAME].[VAR_NAME]` should be replaced with `[TASK_NAME].[VAR_NAME]`. Simply remove a prefix `toy.` for task level variables. BUT DO NOT REMOVE it for workflow level variables. For example, `toy.qc_report.name` is a task (task `qc_report` in a workflow `toy`) level variable so it should be replaced with `qc_report.name`. But `toy.genome_tsv` is a workflow (`toy`) level variable, so you need to keep it the same. This is the only difference between DNANexus CLI and other platforms.
 
-## Input data file
+## Example input JSON
 
     "toy.fastqs": [
         "test/test_data/file1.fastq.gz",
@@ -25,15 +25,25 @@ dxWDL (DNANexus CLI for WDL) does not support definition of task level variables
     "toy.flier_color": "grey",
     "toy.plot_color": "darkgrid"
 
+## Input data file
 
-* `"toy.fastqs"` : 1-dimensional array with single end FASTQ file path/URI.
-* `"toy.LEADING"` : .
-* `"toy.TRAILING"` : .
-* `"toy.MINLEN"` : .
-* `"toy.SLIDINGWINDOW"` : .
-* `"toy.bar_color"` : .
-* `"toy.flier_color"` : .
-* `"toy.plot_color"` : .
+|task|parameter|type|need|default|description|
+|-|-|-|-|-|-|
+|trim|toy.fastqs|array|required|[]|1-dimensional array with single-end FASTQ file path/URI|
+|trim|toy.trimmed_fastqs|array|optional|[]|1-dimensional array with single-end trimmed FASTQ file path/URI (note order of trimmed_fastqs must match order of raw fastqs)|
+
+## Pipeline parameters
+
+|task|parameter|type|need|default|description|
+|-|-|-|-|-|-|
+|trim|toy.LEADING|int|optional|0|minimum quality required to keep a base from start of read|
+|trim|toy.TRAILING|int|optional|0|minimum quality required to keep a base from end of read|
+|trim|toy.MINLEN|int|optional|0|minimum length of reads to keep|
+|trim|toy.SLIDINGWINDOW|string|optional|"1:0"|number of bases to average across:average quality required|
+|plot|toy.bar_color|string|optional|"white"|color of box plot bars|
+|plot|toy.flier_color|string|optional|"grey"|color of outlier points|
+|plot|toy.plot_color|string|optional|"darkgrid"|color/style of plot background, must be one of ['whitegrid', 'darkgrid', 'white', 'ticks']|
+
 
 ## Resource
 
