@@ -1,6 +1,7 @@
 <p align="center">
 <a href="https://www.encodeproject.org">
   <img style="float:left;" width="200" src="https://www.genome.gov/images/feature_images/encode_logo.gif">
+</a>
 </p>
 
 ENCODE demo-pipeline
