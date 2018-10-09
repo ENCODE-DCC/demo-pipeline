@@ -9,9 +9,14 @@ ENCODE demo-pipeline
 
 This pipeline is designed to demonstrate the ENCODE pipeline development framework. The pipeline can be run on compute clusters with job submission engines or stand-alone machines. It inherently makes use of parallelized/distributed computing. Pipeline installation is simple as most dependencies are automatically installed. The pipeline supports only single-end FASTQs to avoid unnecessary complexity. The pipeline uses [Trimmomatic] (http://www.usadellab.org/cms/?page=trimmomatic) software to trim input FASTQs. The output includes the trimmed FASTQ and a plot of FASTQ quality scores before and after trimming.
 
-# Quickstart
+# Local quickstart
 
-1. Add single-end FASTQ and Trimmomatic SLIDINGWINDOW parameter (filter reads that drop below average quality score of 30 in two-base window) to `input.json`:
+1. Install dependencies:
+   * [Java 8] (https://www.java.com/en/download/) or higher.
+   * Cromwell (https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar)
+   * Docker CE (https://docs.docker.com/install/)
+
+2. Add single-end FASTQ and Trimmomatic SLIDINGWINDOW parameter (filter reads that drop below average quality score of 30 in two-base window) to `input.json`:
 ```js
 {
     "toy.fastqs": [
@@ -21,14 +26,15 @@ This pipeline is designed to demonstrate the ENCODE pipeline development framewo
 }
 ```
 
-2. Run WDL workflow using `input.json`, Cromwell, and Docker backend:
+3. Run WDL workflow using `input.json`, Cromwell, and Docker backend:
 ```bash
 $ java -jar -Dconfig.file=backends/backend.conf cromwell-35.jar run toy.wdl -i input.json -o workflow_opts/docker.json
 ```
 
-3. Examine quality score plot:
+4. Examine quality score plot:
 ```bash
-$ open [cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality_scores.png
+# Mac only
+$ open [cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality_scores.png 
 ```
 <p align="center">
 <img style="float:left;" width="1000" src="https://raw.githubusercontent.com/ENCODE-DCC/demo-pipeline/documentation/examples/local/output_plot/file1_untrimmed_file1_trimmed_quality_scores.png">
