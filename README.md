@@ -1,3 +1,10 @@
+<p align="center">
+<a href="https://www.encodeproject.org">
+  <img style="float:left;" src="https://www.genome.gov/images/feature_images/encode_logo.gif">
+  <img style="float:right;" src="http://med.stanford.edu/content/sm/identity/logo/_jcr_content/main/panel_builder/panel_0/panel_builder_0/panel_0/download_1/file.res/Stanford_Medicine_logo-web-CS.png">
+</p>
+
+
 ENCODE demo-pipeline
 ========================
 
