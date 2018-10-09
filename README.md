@@ -1,3 +1,8 @@
+<p align="center">
+<a href="https://www.encodeproject.org">
+  <img style="float:left;" width="200" src="https://www.genome.gov/images/feature_images/encode_logo.gif">
+</p>
+
 ENCODE demo-pipeline
 ========================
 
@@ -21,10 +26,3 @@ This pipeline is designed to demonstrate the ENCODE pipeline development framewo
 ### [Output](docs/output.md)
 
 ### [Testing](docs/testing.md)
-
-
-<p align="center">
-<a href="https://www.encodeproject.org">
-  <img style="float:left;" width="200" src="https://www.genome.gov/images/feature_images/encode_logo.gif">
-  <img style="float:right;" width="200" src="http://med.stanford.edu/content/sm/identity/logo/_jcr_content/main/panel_builder/panel_0/panel_builder_0/panel_0/download_1/file.res/Stanford_Medicine_logo-web-CS.png">
-</p>
