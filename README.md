@@ -5,6 +5,7 @@ This pipeline is designed to demonstrate the ENCODE pipeline development framewo
 
 # Installation / Tutorial
 
+* [Local system with docker](docs/tutorial_local_docker.md)
 * [Google Cloud Platform](docs/tutorial_google.md)
 * [DNANexus Platform with dxWDL CLI](docs/tutorial_dx_cli.md)
 * [DNANexus Platform with Web UI](docs/tutorial_dx_web.md)
@@ -13,7 +14,6 @@ This pipeline is designed to demonstrate the ENCODE pipeline development framewo
 * [SLURM](docs/tutorial_slurm.md)
 * [Sun GridEngine (SGE)](docs/tutorial_sge.md)
 * [Local system with singularity](docs/tutorial_local_singularity.md)
-* [Local system with docker](docs/tutorial_local_docker.md)
 
 
 ### [Input](docs/input.md)
