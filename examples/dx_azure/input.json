@@ -1,0 +1,13 @@
+{
+    "toy.fastqs": [
+        "dx://project-F6K911Q9xyfgJ36JFzv03Z5J:pipeline-test-samples/encode-demo-pipeline/test_data/file1.fastq.gz",
+        "dx://project-F6K911Q9xyfgJ36JFzv03Z5J:pipeline-test-samples/encode-demo-pipeline/test_data/file2.fastq.gz"
+    ],
+    "toy.LEADING": 5,
+    "toy.TRAILING": 5,
+    "toy.MINLEN": 80,
+    "toy.SLIDINGWINDOW": "4:25",
+    "toy.bar_color": "white",
+    "toy.flier_color": "grey",
+    "toy.plot_color": "darkgrid"
+}
