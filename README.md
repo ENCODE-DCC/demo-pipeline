@@ -24,5 +24,3 @@ This pipeline is designed to demonstrate the ENCODE pipeline development framewo
 ### [Input](docs/input.md)
 
 ### [Output](docs/output.md)
-
-### [Testing](docs/testing.md)
