@@ -31,7 +31,17 @@ This pipeline is designed to demonstrate the ENCODE pipeline development framewo
 $ java -jar -Dconfig.file=backends/backend.conf cromwell-35.jar run toy.wdl -i input.json -o workflow_opts/docker.json
 ```
 
-4. Examine quality score plot:
+4. Examine output JSON:
+```js
+{
+  "outputs": {
+    "toy.trimmed_output": ["[cromwell/plot/task/execution/path]/trimmed.file1.fastq.gz"],
+    "toy.plots": ["[cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality_scores.png"]
+  },
+  "id": "abc123"
+}```
+
+5. Examine quality score plot:
 ```bash
 # Mac only
 $ open [cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality_scores.png 
