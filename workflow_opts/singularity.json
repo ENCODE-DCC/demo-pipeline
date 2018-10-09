@@ -1,0 +1,5 @@
+{
+    "default_runtime_attributes" : {
+        "singularity_container" : "~/.singularity/demo-pipeline-template.simg"
+    }
+}
