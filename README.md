@@ -16,8 +16,8 @@ This pipeline is designed to demonstrate the ENCODE pipeline development framewo
 * [Local system with docker](docs/tutorial_local_docker.md)
 
 
-## [Input JSON](docs/input.md)
+### [Input JSON](docs/input.md)
 
-## [Output](docs/output.md)
+### [Output](docs/output.md)
 
-## [Testing](docs/testing.md)
+### [Testing](docs/testing.md)
