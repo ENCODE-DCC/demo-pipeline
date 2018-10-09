@@ -7,10 +7,6 @@ An input JSON file includes all input parameters and metadata for running pipeli
 2) Pipeline parameters.
 3) Resource for instances/jobs.
 
-## For DNANexus CLI users
-
-dxWDL (DNANexus CLI for WDL) does not support definition of task level variables with a prefix `toy.` in an input JSON file. Therefore, `toy.[TASK_NAME].[VAR_NAME]` should be replaced with `[TASK_NAME].[VAR_NAME]`. Simply remove a prefix `toy.` for task level variables. BUT DO NOT REMOVE it for workflow level variables. This is the only difference between DNANexus CLI and other platforms.
-
 ## Example input JSON
 
     "toy.fastqs": [
@@ -24,6 +20,10 @@ dxWDL (DNANexus CLI for WDL) does not support definition of task level variables
     "toy.bar_color": "white",
     "toy.flier_color": "grey",
     "toy.plot_color": "darkgrid"
+
+## For DNANexus CLI users
+
+dxWDL (DNANexus CLI for WDL) does not support definition of task level variables with a prefix `toy.` in an input JSON file. Therefore, `toy.[TASK_NAME].[VAR_NAME]` should be replaced with `[TASK_NAME].[VAR_NAME]`. Simply remove a prefix `toy.` for task level variables. BUT DO NOT REMOVE it for workflow level variables. This is the only difference between DNANexus CLI and other platforms.
 
 ## Input data file
 
