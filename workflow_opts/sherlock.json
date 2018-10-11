@@ -1,0 +1,7 @@
+{
+    "default_runtime_attributes" : {
+        "singularity_container" : "~/.singularity/demo-pipeline-template.simg",
+        "singularity_command_options" : "--bind /scratch,/lscratch,/oak/stanford"
+    }
+}
+
