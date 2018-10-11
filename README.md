@@ -65,8 +65,6 @@ $ open [cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality
 * [DNANexus Platform with Web UI](docs/tutorial_dx_web.md)
 * [Stanford SCG](docs/tutorial_scg.md)
 * [Stanford Sherlock 2.0](docs/tutorial_sherlock.md)
-* [SLURM](docs/tutorial_slurm.md)
-* [Sun GridEngine (SGE)](docs/tutorial_sge.md)
 * [Local system with singularity](docs/tutorial_local_singularity.md)
 
 
