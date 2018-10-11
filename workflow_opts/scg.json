@@ -1,0 +1,9 @@
+{
+    "default_runtime_attributes" : {
+        "time" : 1,
+        "slurm_partition" : "interactive",
+        "singularity_container" : "~/.singularity/demo-pipeline-template.simg",
+        "singularity_command_options" : "--bind /scratch/users,/srv/gsfs0"
+    }
+}
+
