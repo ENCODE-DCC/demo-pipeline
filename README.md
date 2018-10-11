@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/ENCODE-DCC/demo-pipeline/tree/master.svg?style=svg)](https://circleci.com/gh/ENCODE-DCC/demo-pipeline/tree/master)
+
 <p align="center">
 <a href="https://www.encodeproject.org">
   <img style="float:left;" width="200" src="https://www.genome.gov/images/feature_images/encode_logo.gif">
@@ -53,7 +55,7 @@ $ java -jar -Dconfig.file=backends/backend.conf cromwell-35.jar run toy.wdl -i i
 $ open [cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality_scores.png 
 ```
 <p align="center">
-<img style="float:left;" width="1000" src="https://raw.githubusercontent.com/ENCODE-DCC/demo-pipeline/documentation/examples/local/output_plot/file1_untrimmed_file1_trimmed_quality_scores.png">
+<img style="float:left;" width="1000" src="https://raw.githubusercontent.com/ENCODE-DCC/demo-pipeline/master/examples/local/output_plot/file1_untrimmed_file1_trimmed_quality_scores.png">
 </p>
 
 
