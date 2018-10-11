@@ -18,7 +18,7 @@ Tutorial for Stanford SCG cluster
       $ chmod +rx cromwell-35.jar
     ```
 
-4. Set your account in `workflow_opts/scg.json`. If you don't have a partition then remove the `slurm_account` object from the JSON file. Ignore other runtime attributes for singularity.
+4. Set your account in `workflow_opts/scg.json`. If you don't have a SLURM account then remove the `slurm_account` from the JSON file. Ignore other runtime attributes for singularity.
     ```
       {
         "default_runtime_attributes" : {
