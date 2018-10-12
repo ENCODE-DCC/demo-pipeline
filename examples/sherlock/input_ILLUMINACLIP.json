@@ -3,8 +3,8 @@
         "/scratch/users/leepc12/pipeline_test_samples/demo-pipeline/file1.fastq.gz",
         "/scratch/users/leepc12/pipeline_test_samples/demo-pipeline/file2.fastq.gz"
     ],
-    "ILLUMINACLIP_fasta_file" : "/scratch/users/leepc12/pipeline_test_samples/demo-pipeline/Trimmomatic-0.38/adapters/TruSeq3-SE.fa",
-    "ILLUMINACLIP_opt_suffix" : "2",
+    "toy.ILLUMINACLIP_fasta_file" : "/scratch/users/leepc12/pipeline_test_samples/demo-pipeline/Trimmomatic-0.38/adapters/TruSeq2-SE.fa",
+    "toy.ILLUMINACLIP_opt_suffix" : "2:30:10",
     "toy.LEADING": 5,
     "toy.TRAILING": 5,
     "toy.MINLEN": 80,
