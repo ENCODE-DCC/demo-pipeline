@@ -1,0 +1,15 @@
+{
+    "toy.fastqs": [
+        "/scratch/users/leepc12/pipeline_test_samples/demo-pipeline/file1.fastq.gz",
+        "/scratch/users/leepc12/pipeline_test_samples/demo-pipeline/file2.fastq.gz"
+    ],
+    "ILLUMINACLIP_fasta_file" : "/scratch/users/leepc12/pipeline_test_samples/demo-pipeline/Trimmomatic-0.38/adapters/TruSeq3-SE.fa",
+    "ILLUMINACLIP_opt_suffix" : "2",
+    "toy.LEADING": 5,
+    "toy.TRAILING": 5,
+    "toy.MINLEN": 80,
+    "toy.SLIDINGWINDOW": "4:25",
+    "toy.bar_color": "white",
+    "toy.flier_color": "grey",
+    "toy.plot_color": "darkgrid"
+}

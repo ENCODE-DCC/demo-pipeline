@@ -9,6 +9,8 @@ workflow toy {
     String bar_color = 'white'
     String flier_color = 'grey'
     String plot_color = 'darkgrid'
+    File? ILLUMINACLIP_fasta_file
+    String? ILLUMINACLIP_opt_suffix
 
     Int number_of_fastqs = length(fastqs)
     Int number_of_trimmed_fastqs = length(trimmed_fastqs)
@@ -19,7 +21,9 @@ workflow toy {
             min_length = MINLEN,
             leading = LEADING,
             trailing = TRAILING,
-            sliding_window = SLIDINGWINDOW
+            sliding_window = SLIDINGWINDOW,
+            ILLUMINACLIP_fasta_file = ILLUMINACLIP_fasta_file,
+            ILLUMINACLIP_opt_suffix = ILLUMINACLIP_opt_suffix,
         }      
     }
 
@@ -47,13 +51,18 @@ task trim {
     Int leading
     Int trailing
     String sliding_window
-    
+
+    # ILLUMINACLIP:ILLUMINACLIP_fasta_file:ILLUMINACLIP_opt_suffix
+    File? ILLUMINACLIP_fasta_file
+    String? ILLUMINACLIP_opt_suffix
+
     command {
         input_file=$(echo ${fastq_file} | sed 's/.*\///')
         java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \
         SE -phred33 ${fastq_file} trimmed.$input_file \
         LEADING:${leading} \
         TRAILING:${trailing} \
+        ${'ILLUMINACLIP:' + ILLUMINACLIP_fasta_file}${':' + ILLUMINACLIP_opt_suffix} \
         SLIDINGWINDOW:${sliding_window} \
         MINLEN:${min_length}
     }
