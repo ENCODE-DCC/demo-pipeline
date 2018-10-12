@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libfreetype6-dev \
     zlib1g-dev \
+    libbz2-dev \
+    liblzma-dev \
     python \
     python-setuptools \
     python-pip \
@@ -44,5 +46,9 @@ RUN mkdir -p demo-pipeline/src
 
 COPY /src demo-pipeline/src
 ENV PATH="/software/demo-pipeline:/software/demo-pipeline/src:${PATH}"
+
+RUN git clone https://github.com/nunofonseca/fastq_utils.git
+RUN cd fastq_utils && ./install_deps.sh && make && make install
+ENV PATH="/software/fastq_utils/bin:${PATH}"
 
 ENTRYPOINT ["/bin/bash", "-c"]
