@@ -49,7 +49,7 @@ task trim {
     String sliding_window
     
     command {
-        input_file=$(echo ${fastq_file} | sed 's/.*\///')
+        input_file=$(basename ${fastq_file})
         java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \
         SE -phred33 ${fastq_file} trimmed.$input_file \
         LEADING:${leading} \
