@@ -7,7 +7,7 @@ defaults: &defaults
 
 python_defaults: &python_defaults
   docker:
-    - image: quay.io/encode-dcc/demo-pipeline:template
+    - image: quay.io/encode-dcc/demo-pipeline:${CIRCLE_BRANCH}_${CIRCLE_WORKFLOW_ID}
   working_directory: ~/demo-pipeline
  
 machine_defaults: &machine_defaults
@@ -68,12 +68,14 @@ jobs:
     <<: *machine_defaults
     steps:
       - checkout
+      - run: *make_tag
       - run: *get_cromwell
       - run:
           command: |
             pyenv global 3.5.2
-            java -jar cromwell-35.jar run test/test_task/test_trim.wdl -i test/test_task/test_trim.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect trim.trimmed_fastq --metadata_json metadata.json --reference_json test/test_task/ref_output/test_trim_output_md5.json --outfile result.json
+            source ${BASH_ENV}
+            test/test.sh test/test_task/test_trim.wdl test/test_task/test_trim.json $TAG docker
+            python3 src/compare_md5.py --keys_to_inspect trim.trimmed_fastq --metadata_json test_trim.metadata.json --reference_json test/test_task/ref_output/test_trim_output_md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
             
@@ -81,12 +83,14 @@ jobs:
     <<: *machine_defaults
     steps:
       - checkout
+      - run: *make_tag
       - run: *get_cromwell
       - run:
           command: |
             pyenv global 3.5.2
-            java -jar cromwell-35.jar run test/test_task/test_plot.wdl -i test/test_task/test_plot.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect plot.plot_output --metadata_json metadata.json --reference_json test/test_task/ref_output/test_plot_output_md5.json --outfile result.json
+            source ${BASH_ENV}
+            test/test.sh test/test_task/test_plot.wdl test/test_task/test_plot.json $TAG docker
+            python3 src/compare_md5.py --keys_to_inspect plot.plot_output --metadata_json test_plot.metadata.json --reference_json test/test_task/ref_output/test_plot_output_md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
  
@@ -94,12 +98,14 @@ jobs:
     <<: *machine_defaults
     steps:
       - checkout
+      - run: *make_tag
       - run: *get_cromwell
       - run:
           command: |
             pyenv global 3.5.2
-            java -jar cromwell-35.jar run toy.wdl -i test/test_workflow/test_entrypoint.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output --metadata_json metadata.json --reference_json test/test_workflow/ref_output/test_entrypoint_output_md5.json --outfile result.json
+            source ${BASH_ENV}
+            test/test.sh toy.wdl test/test_workflow/test_entrypoint.json $TAG docker
+            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output --metadata_json test_entrypoint.metadata.json --reference_json test/test_workflow/ref_output/test_entrypoint_output_md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
 
@@ -107,12 +113,14 @@ jobs:
     <<: *machine_defaults
     steps:
       - checkout
+      - run: *make_tag
       - run: *get_cromwell
       - run:
           command: |
             pyenv global 3.5.2
-            java -jar cromwell-35.jar run toy.wdl -i test/test_workflow/test_workflow.json -m metadata.json
-            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output toy.plots --metadata_json metadata.json --reference_json test/test_workflow/ref_output/test_workflow_output_md5.json --outfile result.json
+            source ${BASH_ENV}
+            test/test.sh toy.wdl test/test_workflow/test_workflow.json $TAG docker
+            python3 src/compare_md5.py --keys_to_inspect toy.trimmed_output toy.plots --metadata_json test_workflow.metadata.json --reference_json test/test_workflow/ref_output/test_workflow_output_md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
 
