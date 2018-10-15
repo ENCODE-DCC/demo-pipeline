@@ -49,6 +49,7 @@ task trim {
     String sliding_window
     
     command {
+        fastq_info ${fastq_file} || exit 1
         input_file=$(echo ${fastq_file} | sed 's/.*\///')
         java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \
         SE -phred33 ${fastq_file} trimmed.$input_file \
@@ -58,13 +59,14 @@ task trim {
         MINLEN:${min_length}
     }
 
-    output{
+    output {
         File file = glob('trimmed.*.fastq.gz')[0]
     }
 
     runtime {
-        docker: "quay.io/encode-dcc/demo-pipeline:template"
+        docker: "quay.io/encode-dcc/demo-pipeline:fastq_validator_706950d1-f74c-42fd-9f31-c693e9c60049"
     }
+
 }
 
 task plot {
