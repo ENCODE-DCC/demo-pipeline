@@ -70,9 +70,9 @@ task trim {
 task plot {
     File before_trimming
     File after_trimming
-    String bar_color = 'white'
-    String flier_color = 'grey'
-    String plot_color = 'darkgrid'
+    String bar_color
+    String flier_color
+    String plot_color
 
     command {
         python3 /software/demo-pipeline/src/plot_fastq_scores.py \
