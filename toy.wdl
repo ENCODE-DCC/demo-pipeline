@@ -63,7 +63,7 @@ task trim {
     }
 
     runtime {
-        docker: "quay.io/encode-dcc/demo-pipeline:template"
+    
     }
 }
 
@@ -88,6 +88,6 @@ task plot {
     }
     
     runtime {
-        docker: "quay.io/encode-dcc/demo-pipeline:template"
+    
     }
 }
