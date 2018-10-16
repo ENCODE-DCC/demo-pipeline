@@ -61,10 +61,6 @@ task trim {
     output{
         File file = glob('trimmed.*.fastq.gz')[0]
     }
-
-    runtime {
-    
-    }
 }
 
 task plot {
@@ -85,9 +81,5 @@ task plot {
 
     output {
         File plot_output = glob('*quality_scores.png')[0]
-    }
-    
-    runtime {
-    
     }
 }
