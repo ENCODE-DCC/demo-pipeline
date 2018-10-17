@@ -11,7 +11,7 @@ ENCODE demo-pipeline
 
 This pipeline demonstrates the ENCODE pipeline reproducibility framework. Any pipeline deployed in this framework can be run on the cloud, on compute clusters with job-submission engines, or on stand-alone machines. It inherently makes use of parallelized/distributed computing. Pipeline installation is simple as most dependencies are automatically installed.
 
-Here we implement a simple bioinformatics pipeline but surround it with all of the ENCODE pipeline reproducibility infrastructure.  The bioinformatic task is to use the [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) software to trim input FASTQs. The output includes the trimmed FASTQ and a plot of FASTQ quality scores before and after trimming. For simplicity this demo supports only single-end FASTQs.
+Here we implement a simple bioinformatics pipeline but surround it with all of the ENCODE pipeline reproducibility infrastructure.  The bioinformatic task is to use the [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) software to trim input FASTQs. The output includes the trimmed FASTQ and a plot of FASTQ quality scores before and after trimming. For simplicity this demo supports only single-end FASTQs.  Multiple FASTQs are concatenated, producing one trimmed FASTQ.
 
 After experimenting with this repo you can create your own fork and use it as a template to deploy your own pipeline, inheriting all of the multi-platform and reproducibility features.
 
@@ -42,7 +42,7 @@ $ java -jar -Dconfig.file=backends/backend.conf cromwell-35.jar run toy.wdl -i i
 ```js
 {
   "outputs": {
-    "toy.trimmed_output": ["[cromwell/plot/task/execution/path]/trimmed.file1.fastq.gz"],
+    "toy.trimmed_output": "[cromwell/concatenate/task/execution/path]concatenated.XXXX.fastq.gz"
     "toy.plots": ["[cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality_scores.png"]
   },
   "id": "abc123"
