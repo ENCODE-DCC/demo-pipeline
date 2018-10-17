@@ -189,12 +189,14 @@ def get_args():
     parser.add_argument(
         '-pw', '--plot-width',
         help='Width of plot.',
-        default=18
+        default=18,
+        type=int
     )
     parser.add_argument(
         '-ph', '--plot-height',
         help='Height of plot.',
-        default=10
+        default=10,
+        type=int
     )
     return parser.parse_args()
 
