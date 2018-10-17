@@ -9,5 +9,7 @@
     "toy.SLIDINGWINDOW": "4:25",
     "toy.bar_color": "white",
     "toy.flier_color": "grey",
-    "toy.plot_color": "darkgrid"
+    "toy.plot_color": "darkgrid",
+    "toy.plot.width": 12,
+    "toy.plot.height": 7
 }
