@@ -9,8 +9,6 @@ workflow toy {
     String bar_color = 'white'
     String flier_color = 'grey'
     String plot_color = 'darkgrid'
-    Int plot_width = 18
-    Int plot_height = 10
 
     Int number_of_fastqs = length(fastqs)
     Int number_of_trimmed_fastqs = length(trimmed_fastqs)
@@ -73,8 +71,8 @@ task plot {
     String bar_color
     String flier_color
     String plot_color
-    Int plot_width
-    Int plot_height
+    Int? plot_width
+    Int? plot_height
 
     command {
         python3 /software/demo-pipeline/src/plot_fastq_scores.py \
@@ -82,9 +80,9 @@ task plot {
         --trimmed ${after_trimming} \
         --bar-color ${bar_color} \
         --flier-color ${flier_color} \
-        --plot-color ${plot_color}
-        --plot-width ${plot_width}
-        --plot-height ${plot_height}
+        --plot-color ${plot_color} \
+        ${"--plot-width " + plot_width} \
+        ${"--plot-height " +  plot_height}
     }
 
     output {
