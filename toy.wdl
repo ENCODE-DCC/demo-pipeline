@@ -81,8 +81,8 @@ task plot {
         --bar-color ${bar_color} \
         --flier-color ${flier_color} \
         --plot-color ${plot_color} \
-        ${"--plot-width " + plot_width} \
-        ${"--plot-height " +  plot_height}
+        ${'--plot-width ' + plot_width} \
+        ${'--plot-height ' +  plot_height}
     }
 
     output {
