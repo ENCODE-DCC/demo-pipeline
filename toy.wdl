@@ -13,6 +13,10 @@ workflow toy {
     Int number_of_fastqs = length(fastqs)
     Int number_of_trimmed_fastqs = length(trimmed_fastqs)
 
+    # demonstrates WDL scatter-gather pattern
+    # scatter to trim task and then gather to conactenate
+    # note scatter is explicit. But no need to pass an
+    # array to concatenate because gather is implicit (automatic)
     scatter (i in range(number_of_fastqs - number_of_trimmed_fastqs)){
         call trim { input:
             fastq_file = fastqs[i],
@@ -21,6 +25,9 @@ workflow toy {
             trailing = TRAILING,
             sliding_window = SLIDINGWINDOW
         }      
+    }
+    call concatenate { input:
+        trimmed_fastqs = trim.file
     }
 
     Array[File] trimmed_fastqs_ = flatten([trim.file, trimmed_fastqs])
@@ -36,7 +43,7 @@ workflow toy {
     }
 
     output {
-        Array[File] trimmed_output = trim.file
+        File trimmed_output = concatenate.concatenated_fastq
         Array[File] plots = plot.plot_output
     }
 }
@@ -49,7 +56,7 @@ task trim {
     String sliding_window
     
     command {
-        input_file=$(basename ${fastq_file})
+        input_file=$(echo ${fastq_file} | sed 's/.*\///')
         java -jar /software/Trimmomatic-0.38/trimmomatic-0.38.jar \
         SE -phred33 ${fastq_file} trimmed.$input_file \
         LEADING:${leading} \
@@ -81,5 +88,24 @@ task plot {
 
     output {
         File plot_output = glob('*quality_scores.png')[0]
+    }
+}
+
+task concatenate {
+    Array[File] trimmed_fastqs
+
+    command {
+        # get a temporary output filename
+        output_filename=$(mktemp concatenated.XXXX.fastq.gz)
+        # concatenate trimmed fastqs to the output file
+        zcat ${sep=" " trimmed_fastqs} | gzip > $output_filename
+    }
+
+    output {
+        File concatenated_fastq = glob('concatenated.*')[0]
+    }
+
+    runtime {
+        docker: "quay.io/encode-dcc/demo-pipeline:template"
     }
 }
