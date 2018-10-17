@@ -212,8 +212,8 @@ def main():
         args.plot_color,
         untrimmed_count,
         trimmed_count,
-        plot_width,
-        plot_height,
+        args.plot_width,
+        args.plot_height,
     )
     save_plot(figure, parse_file_name(args.untrimmed), parse_file_name(args.trimmed))
 
