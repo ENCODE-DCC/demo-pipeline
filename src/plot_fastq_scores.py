@@ -98,10 +98,10 @@ def plot_count(ax, count):
 
 def plot_quality_score_by_position(untrimmed_bin_data, trimmed_bin_data,
                                    bar_color, flier_color, plot_color,
-                                   untrimmed_count, trimmed_count):
+                                   untrimmed_count, trimmed_count, plot_width, plot_height):
     logging.debug('Creating plot')
     sns.set_style(plot_color)
-    fig, axes = plt.subplots(2, 1, sharey=True, figsize=[18, 10])
+    fig, axes = plt.subplots(2, 1, sharey=True, figsize=[plot_width, plot_height])
     plot_boxplot(untrimmed_bin_data, axes[0], bar_color, flier_color)
     plot_boxplot(trimmed_bin_data, axes[1], bar_color, flier_color)
     axes[0].set_title('Before trimming')
@@ -186,6 +186,16 @@ def get_args():
         help='Color for plot background.',
         default='darkgrid'
     )
+    parser.add_argument(
+        '-pw', '--plot-width',
+        help='Width of plot.',
+        default=18
+    )
+    parser.add_argument(
+        '-ph', '--plot-height',
+        help='Height of plot.',
+        default=10
+    )
     return parser.parse_args()
 
 
@@ -202,6 +212,8 @@ def main():
         args.plot_color,
         untrimmed_count,
         trimmed_count,
+        plot_width,
+        plot_height,
     )
     save_plot(figure, parse_file_name(args.untrimmed), parse_file_name(args.trimmed))
 
