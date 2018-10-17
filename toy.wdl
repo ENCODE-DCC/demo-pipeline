@@ -32,8 +32,6 @@ workflow toy {
             bar_color = bar_color,
             flier_color = flier_color,
             plot_color = plot_color
-            plot_width = plot_width
-            plot_height = plot_height
         }      
     }
 
