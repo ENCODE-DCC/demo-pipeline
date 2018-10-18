@@ -9,6 +9,7 @@ An input JSON file includes all input parameters and metadata for running pipeli
 
 ## Example input JSON
 
+{
     "toy.fastqs": [
         "test/test_data/file1.fastq.gz",
         "test/test_data/file2.fastq.gz"
@@ -19,7 +20,10 @@ An input JSON file includes all input parameters and metadata for running pipeli
     "toy.SLIDINGWINDOW": "3:5",
     "toy.bar_color": "white",
     "toy.flier_color": "grey",
-    "toy.plot_color": "darkgrid"
+    "toy.plot_color": "darkgrid",
+    "toy.plot.plot_width": 18,
+    "toy.plot.plot_height": 10
+}
 
 ## For DNANexus CLI users
 
@@ -43,6 +47,8 @@ dxWDL (DNANexus CLI for WDL) does not support definition of task level variables
 |plot|toy.bar_color|string|optional|"white"|color of box plot bars|
 |plot|toy.flier_color|string|optional|"grey"|color of outlier points|
 |plot|toy.plot_color|string|optional|"darkgrid"|color/style of plot background, must be one of ['whitegrid', 'darkgrid', 'white', 'ticks']|
+|plot|toy.plot.plot_width|int|optional|18|width in inches of the plot|
+|plot|toy.plot.plot_height|int|optional|10|height in inches of the plot|
 
 
 ## Resource
