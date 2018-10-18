@@ -1,0 +1,6 @@
+{
+    "concatenate.trimmed_fastqs": [
+    	"test/test_data/trimmed.file1.fastq.gz",
+    	"test/test_data/trimmed.file2.fastq.gz"
+    ]
+}
