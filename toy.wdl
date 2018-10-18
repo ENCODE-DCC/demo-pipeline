@@ -108,21 +108,3 @@ task concatenate {
         docker: "quay.io/encode-dcc/demo-pipeline:template"
     }
 }
-
-task concatenate {
-    Array[File] trimmed_fastqs
-
-    command {
-        output_filename="trimmed.fastq.gz"
-        # concatenate trimmed fastqs to the output file
-        zcat ${sep=" " trimmed_fastqs} | gzip -n > $output_filename
-    }
-
-    output {
-        File concatenated_fastq = glob('trimmed.fastq.gz*')[0]
-    }
-
-    runtime {
-        docker: "quay.io/encode-dcc/demo-pipeline:template"
-    }
-}

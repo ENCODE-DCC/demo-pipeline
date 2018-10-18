@@ -42,7 +42,7 @@ $ java -jar -Dconfig.file=backends/backend.conf cromwell-35.jar run toy.wdl -i i
 ```js
 {
   "outputs": {
-    "toy.trimmed_output": "[cromwell/concatenate/task/execution/path]concatenated.XXXX.fastq.gz"
+    "toy.trimmed_output": "[cromwell/concatenate/task/execution/path]trimmed.fastq.gz"
     "toy.plots": ["[cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality_scores.png"]
   },
   "id": "abc123"
