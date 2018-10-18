@@ -78,6 +78,21 @@ jobs:
             python3 src/compare_md5.py --keys_to_inspect trim.trimmed_fastq --metadata_json test_trim.metadata.json --reference_json test/test_task/ref_output/test_trim_output_md5.json --outfile result.json
             cat result.json
             python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
+
+  test_concatenation_task:
+    <<: *machine_defaults
+    steps:
+      - checkout
+      - run: *make_tag
+      - run: *get_cromwell
+      - run:
+          command: |
+            pyenv global 3.5.2
+            source ${BASH_ENV}
+            test/test.sh test/test_task/test_concatenate.wdl test/test_task/test_concatenate.json $TAG docker
+            python3 src/compare_md5.py --keys_to_inspect concatenate.concatenated_fastq --metadata_json test_concatenate.metadata.json --reference_json test/test_task/ref_output/test_concatenate_output_md5.json --outfile result.json
+            cat result.json
+            python3 -c "import sys; import json; data=json.loads(sys.stdin.read()); sys.exit(int(not data['match_overall']))" < result.json
             
   test_plotting_task:
     <<: *machine_defaults
