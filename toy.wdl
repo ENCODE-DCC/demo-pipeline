@@ -97,7 +97,7 @@ task concatenate {
     command {
         output_filename="trimmed.fastq.gz"
         # concatenate trimmed fastqs to the output file
-        zcat ${sep=" " trimmed_fastqs} | gzip > $output_filename
+        zcat ${sep=" " trimmed_fastqs} | gzip -n > $output_filename
     }
 
     output {
