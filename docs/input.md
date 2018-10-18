@@ -9,7 +9,6 @@ An input JSON file includes all input parameters and metadata for running pipeli
 
 ## Example input JSON
 
-{
     "toy.fastqs": [
         "test/test_data/file1.fastq.gz",
         "test/test_data/file2.fastq.gz"
@@ -23,7 +22,6 @@ An input JSON file includes all input parameters and metadata for running pipeli
     "toy.plot_color": "darkgrid",
     "toy.plot.plot_width": 18,
     "toy.plot.plot_height": 10
-}
 
 ## For DNANexus CLI users
 
