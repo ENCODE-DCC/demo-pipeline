@@ -164,6 +164,9 @@ workflows:
       - test_trimming_task:
           requires:
             - build
+      - test_concatenation_task:
+          requires:
+            - build
       - test_plotting_task:
           requires:
             - build
