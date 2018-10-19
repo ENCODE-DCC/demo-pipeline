@@ -62,12 +62,12 @@ $ open [cromwell/plot/task/execution/path]/file1_untrimmed_file1_trimmed_quality
 # Installation/tutorial
 
 * [Local system with docker](docs/tutorial_local_docker.md)
+* [Local system with singularity](docs/tutorial_local_singularity.md)
 * [Google Cloud Platform](docs/tutorial_google.md)
 * [DNANexus Platform with dxWDL CLI](docs/tutorial_dx_cli.md)
 * [DNANexus Platform with Web UI](docs/tutorial_dx_web.md)
 * [Stanford SCG](docs/tutorial_scg.md)
 * [Stanford Sherlock 2.0](docs/tutorial_sherlock.md)
-* [Local system with singularity](docs/tutorial_local_singularity.md)
 
 
 ### [Input](docs/input.md)
