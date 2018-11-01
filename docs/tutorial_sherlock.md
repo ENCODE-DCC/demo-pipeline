@@ -15,7 +15,7 @@ Tutorial for Stanford Sherlock 2.0 cluster
 3. Download [cromwell](https://github.com/broadinstitute/cromwell).
     ```
       $ wget https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar
-      $ chmod +rx cromwell-34.jar
+      $ chmod +rx cromwell-35.jar
     ```
 
 4. Set your partition in `workflow_opts/sherlock.json`. If you don't have a partition then remove the `slurm_partition` object from the JSON file. Ignore other runtime attributes for singularity.
@@ -29,7 +29,7 @@ Tutorial for Stanford Sherlock 2.0 cluster
 
 5. Add the following line to your BASH startup script (`~/.bashrc` or `~/.bash_profile`).
     ```
-      module load system singularity
+      module load system singularity java
     ```
 
 6. Pull a singularity container for the pipeline. This will pull pipeline's docker container first and build a singularity one on `~/.singularity`. Stanford Sherlock does not allow building a container on login nodes. Wait until you get a command prompt after `sdev`.
