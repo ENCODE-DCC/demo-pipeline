@@ -4,7 +4,7 @@
 
 2. Build the singularity image for the pipeline. The following pulls the pipeline docker image, and uses that to construct the singularity image. The image will be stored in `~/.singularity`.
 ```
-$ SINGULARITY_PULLFOLDER=~/.singularity singularity pull docker://quay.io/encode-dcc/demo-pipeline:template
+$ SINGULARITY_CACHEDIR=~/.singularity SINGULARITY_PULLFOLDER=~/.singularity singularity pull docker://quay.io/encode-dcc/demo-pipeline:template
 ```
 
 3. Get the code and move to the repo directory:

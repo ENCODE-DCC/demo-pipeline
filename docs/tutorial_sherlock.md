@@ -35,7 +35,7 @@ Tutorial for Stanford Sherlock 2.0 cluster
 6. Pull a singularity container for the pipeline. This will pull pipeline's docker container first and build a singularity one on `~/.singularity`. Stanford Sherlock does not allow building a container on login nodes. Wait until you get a command prompt after `sdev`.
     ```
       $ sdev    # sherlock cluster does not allow building a container on login node
-      $ SINGULARITY_PULLFOLDER=~/.singularity singularity pull docker://quay.io/encode-dcc/demo-pipeline:template
+      $ SINGULARITY_CACHEDIR=~/.singularity SINGULARITY_PULLFOLDER=~/.singularity singularity pull docker://quay.io/encode-dcc/demo-pipeline:template
       $ exit    # exit from an interactive node
     ```
 
