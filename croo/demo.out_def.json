@@ -1,0 +1,14 @@
+{
+  "toy.trim": {
+    "file": {
+      "path": "trimmed_fastqs/${basename}",
+      "table": "Trimmed fastqs/trimmed fastq file${i+1}"
+    }
+  },
+  "toy.plot": {
+    "plot_output": {
+      "path": "plots/${basename}",
+      "table": "Quality score plots/Quality score plot ${i+1}"
+    }
+  }
+}
