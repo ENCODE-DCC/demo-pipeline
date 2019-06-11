@@ -1,3 +1,6 @@
+#CAPER singularity docker://quay.io/encode-dcc/demo-pipeline:template
+#CAPER docker quay.io/encode-dcc/demo-pipeline:template
+
 workflow toy {
     # inputs
     Array[File] fastqs = []

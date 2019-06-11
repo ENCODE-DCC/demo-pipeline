@@ -12,29 +12,13 @@ Tutorial for Stanford SCG cluster
       $ cd demo-pipeline
     ```
 
-3. Download [cromwell](https://github.com/broadinstitute/cromwell).
+3. Install [Caper](https://github.com/ENCODE-DCC/caper/).
     ```
-      $ wget https://github.com/broadinstitute/cromwell/releases/download/42/cromwell-42.jar
-      $ chmod +rx cromwell-42.jar
-    ```
-
-4. Set your account in `workflow_opts/scg.json`. If you don't have a SLURM account then remove the `slurm_account` from the JSON file. Ignore other runtime attributes for singularity.
-    ```
-      {
-        "default_runtime_attributes" : {
-          "slurm_account": "YOUR_SLURM_ACCOUNT"
-        }
-      }
+      $ pip install caper
     ```
 
-5. Pull a singularity container for the pipeline. This will pull pipeline's docker container first and build a singularity one on `~/.singularity`.
-    ```
-      $ SINGULARITY_CACHEDIR=~/.singularity SINGULARITY_PULLFOLDER=~/.singularity singularity pull docker://quay.io/encode-dcc/demo-pipeline:template
-    ```
-
-6. Run a pipeline for the test sample.
+4. Run a pipeline for the test sample. If you don't have a SLURM account then remove the `--slurm-account` argument.
     ```
       $ INPUT=examples/scg/input.json
-      $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm_singularity cromwell-42.jar run toy.wdl -i ${INPUT} -o workflow_opts/scg.json
+      $ caper run -i toy.wdl ${INPUT} --use-singularity -b slurm --slurm-account [SLURM_ACCOUNT]
     ```
-

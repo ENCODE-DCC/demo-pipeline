@@ -7,14 +7,16 @@ Tutorial for general UNIX computers with docker
       $ cd demo-pipeline
     ```
 
-2. Install [Caper](https://github.com/ENCODE-DCC/caper/).
+2. Download [cromwell](https://github.com/broadinstitute/cromwell).
     ```
-      $ pip install caper
+      $ wget https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar
+      $ chmod +rx cromwell-35.jar
     ```
-
+    
 3. Run a pipeline for the test sample.
     ```
-      $ caper run toy.wdl -i examples/local/input.json --use-docker
+      $ INPUT=examples/local/input.json
+      $ java -jar -Dconfig.file=backends/backend.conf cromwell-35.jar run toy.wdl -i ${INPUT} -o workflow_opts/docker.json
     ```
 
 4. It will take a few minutes. You will be able to find all outputs on `cromwell-executions/toy/[RANDOM_HASH_STRING]/`. See [output directory structure](output.md) for details.
