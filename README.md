@@ -20,7 +20,7 @@ After experimenting with this repo you can create your own fork and use it as a 
 
 1. Clone this repo and install dependencies:
    * [Java 8](https://www.java.com/en/download/) or higher.
-   * [Cromwell](https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar)
+   * [Cromwell](https://github.com/broadinstitute/cromwell/releases/download/42/cromwell-42.jar)
    * [Docker CE](https://docs.docker.com/install/)
 
 2. Add single-end FASTQ and Trimmomatic SLIDINGWINDOW parameter (filter reads that drop below average quality score of 30 in two-base window) to `input.json`:
@@ -35,7 +35,7 @@ After experimenting with this repo you can create your own fork and use it as a 
 
 3. Run WDL workflow using `input.json`, Cromwell, and Docker backend:
 ```bash
-$ java -jar -Dconfig.file=backends/backend.conf cromwell-35.jar run toy.wdl -i input.json -o workflow_opts/docker.json -m metadata.json
+$ java -jar -Dconfig.file=backends/backend.conf cromwell-42.jar run toy.wdl -i input.json -o workflow_opts/docker.json -m metadata.json
 ```
 
 4. Organize outputs with `croo`
