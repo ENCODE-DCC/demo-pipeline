@@ -21,9 +21,9 @@ make_tag: &make_tag
     echo "export TAG=quay.io/encode-dcc/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_BRANCH}_${CIRCLE_WORKFLOW_ID}" > ${BASH_ENV}
 
 get_cromwell: &get_cromwell
-  name: get the cromwell 35
+  name: get the cromwell 42
   command: |
-    wget -N -c https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar
+    wget -N -c https://github.com/broadinstitute/cromwell/releases/download/42/cromwell-42.jar
 
 install_singularity: &install_singularity
   name: install singularity

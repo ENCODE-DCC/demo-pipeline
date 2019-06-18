@@ -14,10 +14,16 @@ $ SINGULARITY_CACHEDIR=~/.singularity SINGULARITY_PULLFOLDER=~/.singularity sing
   $ cd demo-pipeline
 ```
 
-4. Run pipeline:
+4. Download [cromwell](https://github.com/broadinstitute/cromwell).
+    ```
+      $ wget https://github.com/broadinstitute/cromwell/releases/download/42/cromwell-42.jar
+      $ chmod +rx cromwell-42.jar
+    ```
+
+5. Run pipeline:
 
 ```bash
-  $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=singularity cromwell-35.jar run toy.wdl -i examples/local/input.json -o workflow_opts/singularity.json
+  $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=singularity cromwell-42.jar run toy.wdl -i examples/local/input.json -o workflow_opts/singularity.json
 ```
 
-5. See outputs in `cromwell-executions/toy/[RUNHASH]`.
+6. See outputs in `cromwell-executions/toy/[RUNHASH]`.
