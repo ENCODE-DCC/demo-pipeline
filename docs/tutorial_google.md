@@ -27,8 +27,8 @@ All test samples and data are shared on our public Google Cloud buckets. You don
 
 5. Download [cromwell](https://github.com/broadinstitute/cromwell).
     ```
-      $ wget https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar
-      $ chmod +rx cromwell-35.jar
+      $ wget https://github.com/broadinstitute/cromwell/releases/download/42/cromwell-42.jar
+      $ chmod +rx cromwell-42.jar
     ```
 
 6. Run a pipeline for the test sample.
@@ -36,7 +36,7 @@ All test samples and data are shared on our public Google Cloud buckets. You don
       $ PROJECT=encode-workshop
       $ BUCKET=gs://encode-workshop-outputs
       $ INPUT=examples/google/input.json
-      $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=${PROJECT} -Dbackend.providers.google.config.root=${BUCKET} cromwell-35.jar run toy.wdl -i ${INPUT} -o workflow_opts/docker.json
+      $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=${PROJECT} -Dbackend.providers.google.config.root=${BUCKET} cromwell-42.jar run toy.wdl -i ${INPUT} -o workflow_opts/docker.json
     ```
 
 7. It will take a few minutes. You will be able to find all outputs on your Google Cloud bucket. See [output directory structure](output.md) for details.

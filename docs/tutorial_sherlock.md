@@ -14,8 +14,8 @@ Tutorial for Stanford Sherlock 2.0 cluster
 
 3. Download [cromwell](https://github.com/broadinstitute/cromwell).
     ```
-      $ wget https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar
-      $ chmod +rx cromwell-35.jar
+      $ wget https://github.com/broadinstitute/cromwell/releases/download/42/cromwell-42.jar
+      $ chmod +rx cromwell-42.jar
     ```
 
 4. Set your partition in `workflow_opts/sherlock.json`. If you don't have a partition then remove the `slurm_partition` object from the JSON file. Ignore other runtime attributes for singularity.
@@ -42,6 +42,6 @@ Tutorial for Stanford Sherlock 2.0 cluster
 7. Run a pipeline for the test sample.
     ```
       $ INPUT=examples/sherlock/input.json
-      $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm_singularity cromwell-35.jar run toy.wdl -i ${INPUT} -o workflow_opts/sherlock.json
+      $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=slurm_singularity cromwell-42.jar run toy.wdl -i ${INPUT} -o workflow_opts/sherlock.json
     ```
 
