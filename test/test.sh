@@ -5,7 +5,7 @@ set -e # exit on error
 WDL=$1
 INPUT=$2
 DOCKER_IMAGE=$3
-CROMWELL_JAR=cromwell-35.jar
+CROMWELL_JAR=cromwell-42.jar
 BACKEND_CONF=backends/backend.conf
 RESULT_PREFIX=$(basename ${INPUT} .json)
 METADATA=${RESULT_PREFIX}.metadata.json # metadata
