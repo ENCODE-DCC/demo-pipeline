@@ -25,9 +25,10 @@ All test samples and data are shared on our public Google Cloud buckets. You don
       $ cd demo-pipeline
     ```
 
-5. Install [Caper](https://github.com/ENCODE-DCC/caper/).
+5. Download [cromwell](https://github.com/broadinstitute/cromwell).
     ```
-      $ pip install caper
+      $ wget https://github.com/broadinstitute/cromwell/releases/download/35/cromwell-35.jar
+      $ chmod +rx cromwell-35.jar
     ```
 
 6. Run a pipeline for the test sample.
@@ -35,7 +36,7 @@ All test samples and data are shared on our public Google Cloud buckets. You don
       $ PROJECT=encode-workshop
       $ BUCKET=gs://encode-workshop-outputs
       $ INPUT=examples/google/input.json
-      $ caper run toy.wdl -i ${INPUT} --use-docker -b gcp --gcp-prj ${PROJECT} --out-gcs-bucket ${BUCKET} --tmp-gcs-bucket ${BUCKET}
+      $ java -jar -Dconfig.file=backends/backend.conf -Dbackend.default=google -Dbackend.providers.google.config.project=${PROJECT} -Dbackend.providers.google.config.root=${BUCKET} cromwell-35.jar run toy.wdl -i ${INPUT} -o workflow_opts/docker.json
     ```
 
 7. It will take a few minutes. You will be able to find all outputs on your Google Cloud bucket. See [output directory structure](output.md) for details.
