@@ -1,5 +1,6 @@
 #CAPER singularity docker://quay.io/encode-dcc/demo-pipeline:template
 #CAPER docker quay.io/encode-dcc/demo-pipeline:template
+#CROO out_def https://storage.googleapis.com/encode-workshop-samples/demo.out_def.json
 
 workflow toy {
     # inputs

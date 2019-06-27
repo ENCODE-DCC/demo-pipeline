@@ -25,9 +25,10 @@ All test samples and data are shared on our public Google Cloud buckets. You don
       $ cd demo-pipeline
     ```
 
-5. Install [Caper](https://github.com/ENCODE-DCC/caper/).
+5. Install [Caper](https://github.com/ENCODE-DCC/caper/) and [Croo](https://github.com/ENCODE-DCC/croo/).
     ```
       $ pip install caper
+      $ pip install croo
     ```
 
 6. Run a pipeline for the test sample.
@@ -38,6 +39,9 @@ All test samples and data are shared on our public Google Cloud buckets. You don
       $ caper run toy.wdl -i ${INPUT} --use-docker -b gcp --gcp-prj ${PROJECT} --out-gcs-bucket ${BUCKET} --tmp-gcs-bucket ${BUCKET}
     ```
 
-7. It will take a few minutes. You will be able to find all outputs on your Google Cloud bucket. See [output directory structure](output.md) for details.
+7. It will take a few minutes. After it finishes, use `croo` to copy and organize the pipeline outputs. You can then examine the pipeline outputs in this folder `output` on your local machine.
+    ```
+      $ croo gs://${BUCKET}/toy/[WF_ID]/metadata.json --out-dir output
+    ```
 
 8. See full specification for [input JSON file](input.md).
