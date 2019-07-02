@@ -41,7 +41,7 @@ All test samples and data are shared on our public Google Cloud buckets. You don
 
 7. It will take a few minutes. After it finishes, use `croo` to copy and organize the pipeline outputs. You can then examine the pipeline outputs in this folder `output` on your local machine.
     ```
-      $ croo gs://${BUCKET}/toy/[WF_ID]/metadata.json --out-dir output
+      $ croo ${BUCKET}/toy/[WF_ID]/metadata.json --out-dir output
     ```
 
 8. See full specification for [input JSON file](input.md).
