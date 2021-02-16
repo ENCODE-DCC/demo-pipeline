@@ -18,7 +18,7 @@
 4. Run pipeline:
 
 ```bash
-  $ caper run toy.wdl -i examples/local/input.json --use-singularity --no-build-singularity
+  $ caper run toy.wdl -i examples/local/input.json --singularity --no-build-singularity
 ```
 
 5. See outputs in `cromwell-executions/toy/[RUNHASH]`.

@@ -20,5 +20,5 @@ Tutorial for Stanford SCG cluster
 4. Run a pipeline for the test sample. If you don't have a SLURM account then remove the `--slurm-account` argument.
     ```
       $ INPUT=examples/scg/input.json
-      $ caper run -i toy.wdl ${INPUT} --use-singularity -b slurm --slurm-account [SLURM_ACCOUNT]
+      $ caper run -i toy.wdl ${INPUT} --singularity -b slurm --slurm-account [SLURM_ACCOUNT]
     ```

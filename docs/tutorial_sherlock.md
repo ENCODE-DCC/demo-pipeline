@@ -25,5 +25,5 @@ Tutorial for Stanford Sherlock 2.0 cluster
 5. Run a pipeline for the test sample.
     ```
       $ INPUT=examples/scg/input.json
-      $ caper run toy.wdl -i ${INPUT} --use-singularity -b slurm --slurm-partition [SLURM_PARTITION]
+      $ caper run toy.wdl -i ${INPUT} --singularity -b slurm --slurm-partition [SLURM_PARTITION]
     ```
