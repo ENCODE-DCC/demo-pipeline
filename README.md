@@ -47,7 +47,7 @@ System requirements:
 3. Run WDL workflow using `input.json`, Cromwell, and Docker backend using Caper. **WARNING:** Pulling the Docker image may take some time depending on your network connection speed, please be patient:
 
 ```bash
-$ caper run toy.wdl -i examples/local/input.json --use-docker
+$ caper run toy.wdl -i examples/local/input.json --docker
 ```
 
 4. Find the `metadata.json` in Caper's output directory and organize outputs with `croo`. The `WF_ID` is a unique key for the pipeline run and is indicated in Caper's logs.

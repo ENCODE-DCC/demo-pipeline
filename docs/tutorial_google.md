@@ -36,7 +36,7 @@ All test samples and data are shared on our public Google Cloud buckets. You don
       $ PROJECT=encode-workshop
       $ BUCKET=gs://encode-workshop-outputs
       $ INPUT=examples/google/input.json
-      $ caper run toy.wdl -i ${INPUT} --use-docker -b gcp --gcp-prj ${PROJECT} --out-gcs-bucket ${BUCKET} --tmp-gcs-bucket ${BUCKET}
+      $ caper run toy.wdl -i ${INPUT} --docker -b gcp --gcp-prj ${PROJECT} --out-gcs-bucket ${BUCKET} --tmp-gcs-bucket ${BUCKET}
     ```
 
 7. It will take a few minutes. After it finishes, use `croo` to copy and organize the pipeline outputs. You can then examine the pipeline outputs in this folder `output` on your local machine.

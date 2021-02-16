@@ -14,7 +14,7 @@ Tutorial for general UNIX computers with docker
 
 3. Run a pipeline for the test sample.
     ```
-      $ caper run toy.wdl -i examples/local/input.json --use-docker
+      $ caper run toy.wdl -i examples/local/input.json --docker
     ```
 
 4. It will take a few minutes. You will be able to find all outputs on `cromwell-executions/toy/[RANDOM_HASH_STRING]/`. See [output directory structure](output.md) for details.
